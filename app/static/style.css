@@ -1,0 +1,10 @@
+body { font-family: Arial, sans-serif; margin: 20px; }
+h1 { color: #1a237e; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #aaa; padding: 8px; }
+th { background: #e3e3f7; }
+tr:nth-child(even) { background: #f0f7ff; }
+form { margin-top: 20px; }
+input[type="text"] { width: 300px; padding: 4px; }
+button { padding: 4px 10px; }
+#chatAnswer { margin-top: 12px; font-weight: bold; }

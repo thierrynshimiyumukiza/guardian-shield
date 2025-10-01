@@ -1,0 +1,446 @@
+2025-09-23 23:03:00,985 - INFO - Starting model training...
+2025-09-23 23:03:01,554 - INFO - Original dataset shape: (107073, 38)
+2025-09-23 23:03:01,555 - INFO - Validating dataset features...
+2025-09-23 23:03:01,621 - INFO - Validated dataset shape: (107073, 38)
+2025-09-23 23:03:01,625 - INFO - Calculating OWASP-specific features...
+2025-09-23 23:03:01,631 - INFO - OWASP features calculated successfully
+2025-09-23 23:03:01,714 - INFO - Filtered 0 rows with missing or invalid data
+2025-09-23 23:03:01,714 - INFO - Using 36 available features
+2025-09-23 23:03:01,728 - INFO - Class distribution: {0: 56553, 1: 50520}
+2025-09-23 23:03:01,728 - INFO - Malicious ratio: 0.4718
+2025-09-23 23:03:01,904 - INFO - Training set: (77360, 36), Validation set: (13652, 36), Test set: (16061, 36)
+2025-09-23 23:03:01,906 - INFO - Training class distribution: {0: 40859, 1: 36501}
+2025-09-23 23:03:01,914 - INFO - Using original training data (sufficiently balanced)
+2025-09-23 23:03:01,915 - INFO - Calculating sample weights...
+2025-09-23 23:09:51,160 - INFO - Starting model training...
+2025-09-23 23:09:51,715 - INFO - Original dataset shape: (107073, 38)
+2025-09-23 23:09:51,715 - INFO - Validating dataset features...
+2025-09-23 23:09:51,786 - INFO - Validated dataset shape: (107073, 38)
+2025-09-23 23:09:51,791 - INFO - Calculating OWASP-specific features...
+2025-09-23 23:09:51,797 - INFO - OWASP features calculated successfully
+2025-09-23 23:09:51,870 - INFO - Filtered 0 rows with missing or invalid data
+2025-09-23 23:09:51,870 - INFO - Using 36 available features
+2025-09-23 23:09:51,884 - INFO - Class distribution: {0: 56553, 1: 50520}
+2025-09-23 23:09:51,884 - INFO - Malicious ratio: 0.4718
+2025-09-23 23:09:52,068 - INFO - Training set: (77360, 36), Validation set: (13652, 36), Test set: (16061, 36)
+2025-09-23 23:09:52,070 - INFO - Training class distribution: {0: 40859, 1: 36501}
+2025-09-23 23:09:52,076 - INFO - Using original training data (sufficiently balanced)
+2025-09-23 23:09:52,076 - INFO - Calculating sample weights...
+2025-09-23 23:09:52,079 - INFO - Sample weights - Min: 1.00, Max: 15.00, Mean: 15.00
+2025-09-23 23:09:52,080 - INFO - Performing grid search...
+2025-09-23 23:18:50,045 - INFO - Best parameters: {'colsample_bytree': 0.7, 'learning_rate': 0.1, 'max_depth': 5, 'subsample': 0.9}
+2025-09-23 23:18:50,045 - INFO - Best CV score: 0.8682
+2025-09-23 23:18:50,093 - INFO - Adding critical feature: contains_sql_keywords
+2025-09-23 23:18:50,101 - INFO - Adding critical feature: contains_xss_patterns
+2025-09-23 23:18:50,109 - INFO - Adding critical feature: contains_path_traversal
+2025-09-23 23:18:50,118 - INFO - Adding critical feature: contains_command_injection
+2025-09-23 23:18:50,127 - INFO - Adding critical feature: contains_xxe_patterns
+2025-09-23 23:18:50,136 - INFO - Selected 20 features including OWASP critical ones
+2025-09-23 23:18:51,911 - INFO - Final validation logloss: 0.2408
+2025-09-23 23:24:46,086 - INFO - Starting model training...
+2025-09-23 23:24:46,582 - INFO - Original dataset shape: (107073, 38)
+2025-09-23 23:24:46,582 - INFO - Validating dataset features...
+2025-09-23 23:24:46,655 - INFO - Validated dataset shape: (107073, 38)
+2025-09-23 23:24:46,660 - INFO - Calculating OWASP-specific features...
+2025-09-23 23:24:46,668 - INFO - OWASP features calculated successfully
+2025-09-23 23:24:46,757 - INFO - Filtered 0 rows with missing or invalid data
+2025-09-23 23:24:46,757 - INFO - Using 36 available features
+2025-09-23 23:24:46,772 - INFO - Class distribution: {0: 56553, 1: 50520}
+2025-09-23 23:24:46,773 - INFO - Malicious ratio: 0.4718
+2025-09-23 23:24:46,976 - INFO - Training set: (77360, 36), Validation set: (13652, 36), Test set: (16061, 36)
+2025-09-23 23:24:46,978 - INFO - Training class distribution: {0: 40859, 1: 36501}
+2025-09-23 23:24:46,986 - INFO - Using original training data (sufficiently balanced)
+2025-09-23 23:24:46,988 - INFO - Calculating sample weights...
+2025-09-23 23:24:46,993 - INFO - Sample weights - Min: 1.00, Max: 5.00, Mean: 5.00
+2025-09-23 23:24:46,993 - WARNING - Sample weights mean is high, potential overfitting risk
+2025-09-23 23:24:46,994 - INFO - Performing grid search...
+2025-09-23 23:38:41,482 - INFO - Starting model training...
+2025-09-23 23:38:43,236 - INFO - Original dataset shape: (107073, 38)
+2025-09-23 23:38:43,241 - INFO - Validating dataset features...
+2025-09-23 23:38:43,400 - INFO - Validated dataset shape: (107073, 38)
+2025-09-23 23:38:43,408 - INFO - Calculating OWASP-specific features...
+2025-09-23 23:38:43,422 - INFO - OWASP features calculated successfully
+2025-09-23 23:38:43,583 - INFO - Filtered 0 rows with missing or invalid data
+2025-09-23 23:38:43,620 - INFO - Using 36 available features
+2025-09-23 23:38:43,682 - INFO - Class distribution: {0: 56553, 1: 50520}
+2025-09-23 23:38:43,698 - INFO - Malicious ratio: 0.4718
+2025-09-23 23:38:44,101 - INFO - Training set: (77360, 36), Validation set: (13652, 36), Test set: (16061, 36)
+2025-09-23 23:38:44,106 - INFO - Training class distribution: {0: 40859, 1: 36501}
+2025-09-23 23:38:44,113 - INFO - Using original training data (sufficiently balanced)
+2025-09-23 23:38:44,113 - INFO - Calculating sample weights...
+2025-09-23 23:38:44,117 - INFO - Sample weights - Min: 1.00, Max: 3.00, Mean: 3.00
+2025-09-23 23:38:44,117 - WARNING - Sample weights mean is high, potential overfitting risk
+2025-09-23 23:38:44,117 - INFO - Performing grid search...
+2025-09-23 23:39:49,435 - INFO - Best parameters: {'colsample_bytree': 0.8, 'learning_rate': 0.1, 'subsample': 0.8}
+2025-09-23 23:39:49,435 - INFO - Best CV score: 0.8671
+2025-09-23 23:39:49,480 - INFO - Adding critical feature: contains_sql_keywords
+2025-09-23 23:39:49,488 - INFO - Adding critical feature: contains_xss_patterns
+2025-09-23 23:39:49,496 - INFO - Adding critical feature: contains_path_traversal
+2025-09-23 23:39:49,504 - INFO - Adding critical feature: contains_command_injection
+2025-09-23 23:39:49,514 - INFO - Adding critical feature: contains_xxe_patterns
+2025-09-23 23:39:49,524 - INFO - Selected 20 features including OWASP critical ones
+2025-09-23 23:39:51,071 - INFO - Final validation logloss: 0.2517
+2025-09-23 23:39:54,857 - INFO - Optimal threshold: 0.3527
+2025-09-23 23:39:54,858 - INFO - Security-adjusted threshold: 0.6500
+2025-09-23 23:39:54,858 - INFO - 
+=== VALIDATION RESULTS ===
+2025-09-23 23:39:54,858 - INFO - Adjusted Threshold: 0.6500
+2025-09-23 23:39:54,859 - INFO - Classification Report:
+2025-09-23 23:39:54,873 - INFO -               precision    recall  f1-score   support
+
+           0     0.8625    0.9548    0.9063      7211
+           1     0.9425    0.8295    0.8824      6441
+
+    accuracy                         0.8957     13652
+   macro avg     0.9025    0.8922    0.8943     13652
+weighted avg     0.9002    0.8957    0.8950     13652
+
+2025-09-23 23:39:54,876 - INFO - Confusion Matrix:
+2025-09-23 23:39:54,877 - INFO - [[6885  326]
+ [1098 5343]]
+2025-09-23 23:46:50,150 - INFO - Starting model training...
+2025-09-23 23:46:50,673 - INFO - Original dataset shape: (107073, 38)
+2025-09-23 23:46:50,674 - INFO - Validating dataset features...
+2025-09-23 23:46:50,760 - INFO - Validated dataset shape: (107073, 38)
+2025-09-23 23:46:50,765 - INFO - Calculating OWASP-specific features...
+2025-09-23 23:46:50,774 - INFO - OWASP features calculated successfully
+2025-09-23 23:46:50,897 - INFO - Filtered 0 rows with missing or invalid data
+2025-09-23 23:46:50,897 - INFO - Using 36 available features
+2025-09-23 23:46:50,914 - INFO - Class distribution: {0: 56553, 1: 50520}
+2025-09-23 23:46:50,915 - INFO - Malicious ratio: 0.4718
+2025-09-23 23:46:51,144 - INFO - Training set: (77360, 36), Validation set: (13652, 36), Test set: (16061, 36)
+2025-09-23 23:46:51,146 - INFO - Training class distribution: {0: 40859, 1: 36501}
+2025-09-23 23:46:51,155 - INFO - Using original training data (sufficiently balanced)
+2025-09-23 23:46:51,156 - INFO - Calculating sample weights...
+2025-09-23 23:46:51,157 - INFO - Feature contains_sql_keywords: prevalence=0.0061, adjusted_weight=7.5409
+2025-09-23 23:46:51,158 - INFO - Feature contains_xss_patterns: prevalence=0.0400, adjusted_weight=4.2867
+2025-09-23 23:46:51,159 - INFO - Feature contains_path_traversal: prevalence=0.0145, adjusted_weight=5.2406
+2025-09-23 23:46:51,160 - INFO - Feature contains_command_injection: prevalence=0.0031, adjusted_weight=11.6404
+2025-09-23 23:46:51,161 - INFO - Feature contains_ldap_injection: prevalence=10.0905, adjusted_weight=0.1178
+2025-09-23 23:46:51,162 - INFO - Feature contains_xxe_patterns: prevalence=0.0053, adjusted_weight=9.4944
+2025-09-23 23:46:51,163 - INFO - Feature sensitive_path_access: prevalence=0.0010, adjusted_weight=5.9416
+2025-09-23 23:46:51,164 - INFO - Sample weights - Min: 1.00, Max: 2.00, Mean: 1.85
+2025-09-23 23:46:51,164 - WARNING - Sample weights mean is high, potential overfitting risk
+2025-09-23 23:46:51,189 - INFO - Performing grid search...
+2025-09-23 23:47:45,214 - INFO - Best parameters: {'colsample_bytree': 0.7, 'learning_rate': 0.1, 'subsample': 0.8}
+2025-09-23 23:47:45,215 - INFO - Best CV score: 0.8690
+2025-09-23 23:47:45,256 - INFO - Adding critical feature: contains_sql_keywords
+2025-09-23 23:47:45,263 - INFO - Adding critical feature: contains_xss_patterns
+2025-09-23 23:47:45,269 - INFO - Adding critical feature: contains_path_traversal
+2025-09-23 23:47:45,276 - INFO - Adding critical feature: contains_command_injection
+2025-09-23 23:47:45,284 - INFO - Adding critical feature: contains_ldap_injection
+2025-09-23 23:47:45,292 - INFO - Adding critical feature: contains_xxe_patterns
+2025-09-23 23:47:45,301 - INFO - Selected 18 features including OWASP critical ones
+2025-09-23 23:47:47,283 - INFO - Final validation logloss: 0.2262
+2025-09-23 23:47:50,655 - INFO - Optimal threshold: 0.3505
+2025-09-23 23:47:50,655 - INFO - Security-adjusted threshold: 0.7000
+2025-09-23 23:47:50,655 - INFO - 
+=== VALIDATION RESULTS ===
+2025-09-23 23:47:50,656 - INFO - Adjusted Threshold: 0.7000
+2025-09-23 23:47:50,656 - INFO - Classification Report:
+2025-09-23 23:47:50,672 - INFO -               precision    recall  f1-score   support
+
+           0     0.8185    0.9878    0.8952      7211
+           1     0.9822    0.7547    0.8536      6441
+
+    accuracy                         0.8778     13652
+   macro avg     0.9003    0.8712    0.8744     13652
+weighted avg     0.8957    0.8778    0.8755     13652
+
+2025-09-23 23:47:50,675 - INFO - Confusion Matrix:
+2025-09-23 23:47:50,675 - INFO - [[7123   88]
+ [1580 4861]]
+2025-09-23 23:47:50,982 - INFO - False negatives saved to: ./app/false_negatives.csv
+2025-09-23 23:47:50,994 - INFO - False positives saved to: ./app/false_positives.csv
+2025-09-23 23:47:51,337 - INFO - 
+=== TEST RESULTS ===
+2025-09-23 23:47:51,338 - INFO - Classification Report:
+2025-09-23 23:47:51,356 - INFO -               precision    recall  f1-score   support
+
+           0     0.7990    0.9696    0.8761      8483
+           1     0.9553    0.7270    0.8256      7578
+
+    accuracy                         0.8551     16061
+   macro avg     0.8771    0.8483    0.8508     16061
+weighted avg     0.8727    0.8551    0.8523     16061
+
+2025-09-23 23:47:51,442 - INFO - 
+Model components saved successfully
+2025-09-23 23:47:51,443 - INFO - Model: ./app/model.pkl
+2025-09-23 23:47:51,443 - INFO - Threshold: ./app/threshold.pkl
+2025-09-23 23:47:51,443 - INFO - Features: ./app/selected_features.pkl
+2025-09-23 23:47:51,444 - INFO - Calibrator: ./app/calibrator.pkl
+2025-09-23 23:52:21,006 - INFO - Starting model training...
+2025-09-23 23:52:21,591 - INFO - Original dataset shape: (107073, 38)
+2025-09-23 23:52:21,591 - INFO - Validating dataset features...
+2025-09-23 23:52:21,687 - INFO - Validated dataset shape: (107073, 38)
+2025-09-23 23:52:21,691 - INFO - Calculating OWASP-specific features...
+2025-09-23 23:52:21,698 - INFO - Feature contains_sql_keywords prevalence: 0.0061
+2025-09-23 23:52:21,698 - INFO - Feature contains_xss_patterns prevalence: 0.0239
+2025-09-23 23:52:21,699 - INFO - Feature contains_path_traversal prevalence: 0.0144
+2025-09-23 23:52:21,699 - INFO - Feature contains_command_injection prevalence: 0.0029
+2025-09-23 23:52:21,699 - INFO - Feature contains_ldap_injection prevalence: 1.0000
+2025-09-23 23:52:21,700 - INFO - Feature contains_xxe_patterns prevalence: 0.0054
+2025-09-23 23:52:21,700 - INFO - Feature sensitive_path_access prevalence: 0.0009
+2025-09-23 23:52:21,700 - INFO - OWASP features calculated successfully
+2025-09-23 23:52:21,785 - INFO - Filtered 0 rows with missing or invalid data
+2025-09-23 23:52:21,786 - INFO - Using 36 available features
+2025-09-23 23:52:21,801 - INFO - Class distribution: {0: 56553, 1: 50520}
+2025-09-23 23:52:21,801 - INFO - Malicious ratio: 0.4718
+2025-09-23 23:52:21,979 - INFO - Training set: (77360, 36), Validation set: (13652, 36), Test set: (16061, 36)
+2025-09-23 23:52:21,982 - INFO - Training class distribution: {0: 40859, 1: 36501}
+2025-09-23 23:52:21,988 - INFO - Using original training data (sufficiently balanced)
+2025-09-23 23:52:21,989 - INFO - Calculating sample weights...
+2025-09-23 23:52:21,990 - INFO - Feature contains_sql_keywords: prevalence=0.0060, adjusted_weight=5.6591
+2025-09-23 23:52:21,991 - INFO - Feature contains_xss_patterns: prevalence=0.0236, adjusted_weight=4.0460
+2025-09-23 23:52:21,992 - INFO - Feature contains_path_traversal: prevalence=0.0145, adjusted_weight=4.3672
+2025-09-23 23:52:21,992 - INFO - Feature contains_command_injection: prevalence=0.0030, adjusted_weight=9.7052
+2025-09-23 23:52:21,993 - INFO - Feature contains_ldap_injection: prevalence=1.0000, adjusted_weight=1.3637
+2025-09-23 23:52:21,994 - INFO - Feature contains_xxe_patterns: prevalence=0.0053, adjusted_weight=14.2415
+2025-09-23 23:52:21,994 - INFO - Feature sensitive_path_access: prevalence=0.0010, adjusted_weight=4.9514
+2025-09-23 23:52:21,995 - INFO - Sample weights - Min: 1.00, Max: 1.80, Mean: 1.80
+2025-09-23 23:52:21,996 - WARNING - Sample weights mean is high, potential overfitting risk
+2025-09-23 23:52:22,017 - INFO - Performing grid search...
+2025-09-23 23:53:17,683 - INFO - Best parameters: {'colsample_bytree': 0.8, 'learning_rate': 0.1, 'subsample': 0.9}
+2025-09-23 23:53:17,684 - INFO - Best CV score: 0.8685
+2025-09-23 23:53:17,721 - INFO - Adding critical feature: contains_sql_keywords
+2025-09-23 23:53:17,729 - INFO - Adding critical feature: contains_xss_patterns
+2025-09-23 23:53:17,736 - INFO - Adding critical feature: contains_command_injection
+2025-09-23 23:53:17,744 - INFO - Adding critical feature: contains_ldap_injection
+2025-09-23 23:53:17,752 - INFO - Adding critical feature: contains_xxe_patterns
+2025-09-23 23:53:17,761 - INFO - Selected 22 features including OWASP critical ones
+2025-09-23 23:53:19,444 - INFO - Final validation logloss: 0.2344
+2025-09-23 23:53:22,669 - INFO - Optimal threshold: 0.3718
+2025-09-23 23:53:22,670 - INFO - Security-adjusted threshold: 0.6800
+2025-09-23 23:53:22,670 - INFO - 
+=== VALIDATION RESULTS ===
+2025-09-23 23:53:22,670 - INFO - Adjusted Threshold: 0.6800
+2025-09-23 23:53:22,670 - INFO - Classification Report:
+2025-09-23 23:53:22,688 - INFO -               precision    recall  f1-score   support
+
+           0     0.8390    0.9712    0.9002      7211
+           1     0.9608    0.7913    0.8679      6441
+
+    accuracy                         0.8863     13652
+   macro avg     0.8999    0.8812    0.8841     13652
+weighted avg     0.8965    0.8863    0.8850     13652
+
+2025-09-23 23:53:22,691 - INFO - Confusion Matrix:
+2025-09-23 23:53:22,692 - INFO - [[7003  208]
+ [1344 5097]]
+2025-09-23 23:53:22,933 - INFO - False negatives saved to: ./app/false_negatives.csv
+2025-09-23 23:53:23,041 - INFO - False positives saved to: ./app/false_positives.csv
+2025-09-23 23:53:23,340 - INFO - 
+=== TEST RESULTS ===
+2025-09-23 23:53:23,341 - INFO - Classification Report:
+2025-09-23 23:53:23,359 - INFO -               precision    recall  f1-score   support
+
+           0     0.8113    0.9498    0.8751      8483
+           1     0.9305    0.7527    0.8322      7578
+
+    accuracy                         0.8568     16061
+   macro avg     0.8709    0.8512    0.8537     16061
+weighted avg     0.8675    0.8568    0.8549     16061
+
+2025-09-23 23:53:24,713 - INFO - 
+Model components saved successfully
+2025-09-23 23:53:24,714 - INFO - Model: ./app/model.pkl
+2025-09-23 23:53:24,715 - INFO - Threshold: ./app/threshold.pkl
+2025-09-23 23:53:24,718 - INFO - Features: ./app/selected_features.pkl
+2025-09-23 23:53:24,719 - INFO - Calibrator: ./app/calibrator.pkl
+2025-09-23 23:59:38,659 - INFO - Starting model training...
+2025-09-23 23:59:39,319 - INFO - Original dataset shape: (107073, 38)
+2025-09-23 23:59:39,319 - INFO - Validating dataset features...
+2025-09-23 23:59:39,435 - INFO - Validated dataset shape: (107073, 38)
+2025-09-23 23:59:39,440 - INFO - Calculating OWASP-specific features...
+2025-09-23 23:59:39,454 - INFO - Feature contains_sql_keywords prevalence: 0.0061, values: {0: 106425, 1: 648}
+2025-09-23 23:59:39,456 - INFO - Feature contains_xss_patterns prevalence: 0.0239, values: {0: 104515, 1: 2558}
+2025-09-23 23:59:39,459 - INFO - Feature contains_path_traversal prevalence: 0.0144, values: {0: 105535, 1: 1538}
+2025-09-23 23:59:39,462 - INFO - Feature contains_command_injection prevalence: 0.0029, values: {0: 106764, 1: 309}
+2025-09-23 23:59:39,465 - INFO - Feature contains_ldap_injection prevalence: 1.0000, values: {1: 107072, 0: 1}
+2025-09-23 23:59:39,465 - WARNING - Invalid prevalence for contains_ldap_injection: 1.0000, should be [0, 0.5]
+2025-09-23 23:59:39,468 - INFO - Feature contains_xxe_patterns prevalence: 0.0054, values: {0: 106492, 1: 581}
+2025-09-23 23:59:39,471 - INFO - Feature sensitive_path_access prevalence: 0.0009, values: {0: 106980, 1: 93}
+2025-09-23 23:59:39,471 - INFO - OWASP features calculated successfully
+2025-09-23 23:59:39,568 - INFO - Filtered 0 rows with missing or invalid data
+2025-09-23 23:59:39,569 - INFO - Using 36 available features
+2025-09-23 23:59:39,585 - INFO - Class distribution: {0: 56553, 1: 50520}
+2025-09-23 23:59:39,586 - INFO - Malicious ratio: 0.4718
+2025-09-23 23:59:39,785 - INFO - Training set: (77360, 36), Validation set: (13652, 36), Test set: (16061, 36)
+2025-09-23 23:59:39,788 - INFO - Training class distribution: {0: 40859, 1: 36501}
+2025-09-23 23:59:39,795 - INFO - Using original training data (sufficiently balanced)
+2025-09-23 23:59:39,795 - INFO - Calculating sample weights...
+2025-09-23 23:59:39,797 - INFO - Feature contains_sql_keywords: prevalence=0.0060, adjusted_weight=4.7159
+2025-09-23 23:59:39,798 - INFO - Feature contains_xss_patterns: prevalence=0.0236, adjusted_weight=3.2368
+2025-09-23 23:59:39,802 - INFO - Feature contains_path_traversal: prevalence=0.0145, adjusted_weight=3.4937
+2025-09-23 23:59:39,804 - INFO - Feature contains_command_injection: prevalence=0.0030, adjusted_weight=7.7641
+2025-09-23 23:59:39,805 - INFO - Feature contains_ldap_injection: prevalence=0.5000, adjusted_weight=3.0000
+2025-09-23 23:59:39,806 - INFO - Feature contains_xxe_patterns: prevalence=0.0053, adjusted_weight=17.0898
+2025-09-23 23:59:39,808 - INFO - Feature sensitive_path_access: prevalence=0.0010, adjusted_weight=3.9611
+2025-09-23 23:59:39,809 - INFO - Sample weights - Min: 1.00, Max: 1.50, Mean: 1.50
+2025-09-23 23:59:39,810 - WARNING - Sample weights mean is high, potential overfitting risk
+2025-09-23 23:59:39,827 - INFO - Performing grid search...
+2025-09-24 00:00:37,284 - INFO - Best parameters: {'colsample_bytree': 0.7, 'learning_rate': 0.1, 'subsample': 0.8}
+2025-09-24 00:00:37,285 - INFO - Best CV score: 0.8677
+2025-09-24 00:00:37,324 - INFO - Adding critical feature: contains_sql_keywords
+2025-09-24 00:00:37,332 - INFO - Adding critical feature: contains_xss_patterns
+2025-09-24 00:00:37,339 - INFO - Adding critical feature: contains_command_injection
+2025-09-24 00:00:37,348 - INFO - Adding critical feature: contains_ldap_injection
+2025-09-24 00:00:37,356 - INFO - Adding critical feature: contains_xxe_patterns
+2025-09-24 00:00:37,365 - INFO - Selected 22 features including OWASP critical ones
+2025-09-24 00:00:38,975 - INFO - Final validation logloss: 0.2513
+2025-09-24 00:00:42,656 - INFO - Optimal threshold: 0.3424
+2025-09-24 00:00:42,656 - INFO - Security-adjusted threshold: 0.7000
+2025-09-24 00:00:42,656 - INFO - 
+=== VALIDATION RESULTS ===
+2025-09-24 00:00:42,657 - INFO - Adjusted Threshold: 0.7000
+2025-09-24 00:00:42,657 - INFO - Classification Report:
+2025-09-24 00:00:42,673 - INFO -               precision    recall  f1-score   support
+
+           0     0.8207    0.9885    0.8968      7211
+           1     0.9833    0.7583    0.8562      6441
+
+    accuracy                         0.8799     13652
+   macro avg     0.9020    0.8734    0.8765     13652
+weighted avg     0.8974    0.8799    0.8777     13652
+
+2025-09-24 00:00:42,677 - INFO - Confusion Matrix:
+2025-09-24 00:00:42,677 - INFO - [[7128   83]
+ [1557 4884]]
+2025-09-24 00:00:42,860 - INFO - False negatives saved to: ./app/false_negatives.csv
+2025-09-24 00:00:42,969 - INFO - False positives saved to: ./app/false_positives.csv
+2025-09-24 00:00:43,285 - INFO - 
+=== TEST RESULTS ===
+2025-09-24 00:00:43,286 - INFO - Classification Report:
+2025-09-24 00:00:43,302 - INFO -               precision    recall  f1-score   support
+
+           0     0.7977    0.9682    0.8747      8483
+           1     0.9532    0.7251    0.8237      7578
+
+    accuracy                         0.8535     16061
+   macro avg     0.8754    0.8466    0.8492     16061
+weighted avg     0.8710    0.8535    0.8506     16061
+
+2025-09-24 00:00:43,778 - INFO - 
+Model components saved successfully
+2025-09-24 00:00:43,778 - INFO - Model: ./app/model.pkl
+2025-09-24 00:00:43,780 - INFO - Threshold: ./app/threshold.pkl
+2025-09-24 00:00:43,784 - INFO - Features: ./app/selected_features.pkl
+2025-09-24 00:00:43,784 - INFO - Calibrator: ./app/calibrator.pkl
+2025-09-24 00:00:43,788 - INFO - 
+Top 10 Feature Importances:
+2025-09-24 00:00:43,794 - INFO -                  feature  importance
+9          is_get_method    0.151066
+8           request_time    0.099619
+10        is_post_method    0.096794
+11             ua_length    0.082331
+15         num_uppercase    0.076897
+16       parameter_count    0.062841
+0   num_directory_levels    0.062403
+14            num_digits    0.060579
+12     is_common_browser    0.056860
+5      num_special_chars    0.043341
+2025-09-24 00:00:43,813 - INFO - 
+Final Performance Metrics:
+2025-09-24 00:00:43,814 - INFO - Precision: 0.9532
+2025-09-24 00:00:43,816 - INFO - Recall: 0.7251
+2025-09-24 00:00:43,821 - INFO - F1-Score: 0.8237
+2025-09-24 00:00:43,821 - INFO - Test False Positive Rate: 0.0318
+2025-09-27 18:53:32,481 - INFO - Starting model training...
+2025-09-27 18:53:33,120 - INFO - Original dataset shape: (107073, 38)
+2025-09-27 18:53:33,121 - INFO - Validating dataset features...
+2025-09-27 18:53:33,237 - INFO - Validated dataset shape: (107073, 38)
+2025-09-27 18:53:33,242 - INFO - Calculating OWASP-specific features...
+2025-09-27 18:53:33,254 - INFO - Feature contains_sql_keywords prevalence: 0.0061, values: {0: 106425, 1: 648}
+2025-09-27 18:53:33,257 - INFO - Feature contains_xss_patterns prevalence: 0.0239, values: {0: 104515, 1: 2558}
+2025-09-27 18:53:33,260 - INFO - Feature contains_path_traversal prevalence: 0.0144, values: {0: 105535, 1: 1538}
+2025-09-27 18:53:33,263 - INFO - Feature contains_command_injection prevalence: 0.0029, values: {0: 106764, 1: 309}
+2025-09-27 18:53:33,267 - INFO - Feature contains_ldap_injection prevalence: 1.0000, values: {1: 107072, 0: 1}
+2025-09-27 18:53:33,268 - WARNING - Invalid prevalence for contains_ldap_injection: 1.0000, should be [0, 0.5]
+2025-09-27 18:53:33,271 - INFO - Feature contains_xxe_patterns prevalence: 0.0054, values: {0: 106492, 1: 581}
+2025-09-27 18:53:33,274 - INFO - Feature sensitive_path_access prevalence: 0.0009, values: {0: 106980, 1: 93}
+2025-09-27 18:53:33,274 - INFO - OWASP features calculated successfully
+2025-09-27 18:53:33,392 - INFO - Filtered 0 rows with missing or invalid data
+2025-09-27 18:53:33,393 - INFO - Using 36 available features
+2025-09-27 18:53:33,407 - INFO - Class distribution: {0: 56553, 1: 50520}
+2025-09-27 18:53:33,408 - INFO - Malicious ratio: 0.4718
+2025-09-27 18:53:33,585 - INFO - Training set: (77360, 36), Validation set: (13652, 36), Test set: (16061, 36)
+2025-09-27 18:53:33,587 - INFO - Training class distribution: {0: 40859, 1: 36501}
+2025-09-27 18:53:33,594 - INFO - Using original training data (sufficiently balanced)
+2025-09-27 18:53:33,594 - INFO - Calculating sample weights...
+2025-09-27 18:53:33,596 - INFO - Feature contains_sql_keywords: prevalence=0.0060, adjusted_weight=4.7159
+2025-09-27 18:53:33,597 - INFO - Feature contains_xss_patterns: prevalence=0.0236, adjusted_weight=3.2368
+2025-09-27 18:53:33,598 - INFO - Feature contains_path_traversal: prevalence=0.0145, adjusted_weight=3.4937
+2025-09-27 18:53:33,599 - INFO - Feature contains_command_injection: prevalence=0.0030, adjusted_weight=7.7641
+2025-09-27 18:53:33,601 - INFO - Feature contains_ldap_injection: prevalence=0.5000, adjusted_weight=3.0000
+2025-09-27 18:53:33,604 - INFO - Feature contains_xxe_patterns: prevalence=0.0053, adjusted_weight=17.0898
+2025-09-27 18:53:33,606 - INFO - Feature sensitive_path_access: prevalence=0.0010, adjusted_weight=3.9611
+2025-09-27 18:53:33,607 - INFO - Sample weights - Min: 1.00, Max: 1.50, Mean: 1.50
+2025-09-27 18:53:33,607 - WARNING - Sample weights mean is high, potential overfitting risk
+2025-09-27 18:53:33,634 - INFO - Performing grid search...
+2025-09-27 18:54:45,939 - INFO - Best parameters: {'colsample_bytree': 0.7, 'learning_rate': 0.1, 'subsample': 0.8}
+2025-09-27 18:54:45,939 - INFO - Best CV score: 0.8677
+2025-09-27 18:54:46,001 - INFO - Adding critical feature: contains_sql_keywords
+2025-09-27 18:54:46,014 - INFO - Adding critical feature: contains_xss_patterns
+2025-09-27 18:54:46,024 - INFO - Adding critical feature: contains_command_injection
+2025-09-27 18:54:46,037 - INFO - Adding critical feature: contains_ldap_injection
+2025-09-27 18:54:46,051 - INFO - Adding critical feature: contains_xxe_patterns
+2025-09-27 18:54:46,066 - INFO - Selected 22 features including OWASP critical ones
+2025-09-27 18:54:47,537 - INFO - Final validation logloss: 0.2513
+2025-09-27 18:54:55,933 - INFO - Optimal threshold: 0.3424
+2025-09-27 18:54:55,942 - INFO - Security-adjusted threshold: 0.7000
+2025-09-27 18:54:55,944 - INFO - 
+=== VALIDATION RESULTS ===
+2025-09-27 18:54:55,945 - INFO - Adjusted Threshold: 0.7000
+2025-09-27 18:54:55,945 - INFO - Classification Report:
+2025-09-27 18:54:55,985 - INFO -               precision    recall  f1-score   support
+
+           0     0.8207    0.9885    0.8968      7211
+           1     0.9833    0.7583    0.8562      6441
+
+    accuracy                         0.8799     13652
+   macro avg     0.9020    0.8734    0.8765     13652
+weighted avg     0.8974    0.8799    0.8777     13652
+
+2025-09-27 18:55:03,383 - INFO - Confusion Matrix:
+2025-09-27 18:55:03,408 - INFO - [[7128   83]
+ [1557 4884]]
+2025-09-27 18:55:03,925 - INFO - False negatives saved to: ./app/false_negatives.csv
+2025-09-27 18:55:04,030 - INFO - False positives saved to: ./app/false_positives.csv
+2025-09-27 18:55:04,731 - INFO - 
+=== TEST RESULTS ===
+2025-09-27 18:55:04,738 - INFO - Classification Report:
+2025-09-27 18:55:04,762 - INFO -               precision    recall  f1-score   support
+
+           0     0.7977    0.9682    0.8747      8483
+           1     0.9532    0.7251    0.8237      7578
+
+    accuracy                         0.8535     16061
+   macro avg     0.8754    0.8466    0.8492     16061
+weighted avg     0.8710    0.8535    0.8506     16061
+
+2025-09-27 18:55:04,845 - INFO - 
+Model components saved successfully
+2025-09-27 18:55:04,846 - INFO - Model: ./app/model.pkl
+2025-09-27 18:55:04,847 - INFO - Threshold: ./app/threshold.pkl
+2025-09-27 18:55:04,848 - INFO - Features: ./app/selected_features.pkl
+2025-09-27 18:55:04,852 - INFO - Calibrator: ./app/calibrator.pkl
+2025-09-27 18:55:04,857 - INFO - 
+Top 10 Feature Importances:
+2025-09-27 18:55:04,863 - INFO -                  feature  importance
+9          is_get_method    0.151066
+8           request_time    0.099619
+10        is_post_method    0.096794
+11             ua_length    0.082331
+15         num_uppercase    0.076897
+16       parameter_count    0.062841
+0   num_directory_levels    0.062403
+14            num_digits    0.060579
+12     is_common_browser    0.056860
+5      num_special_chars    0.043341
+2025-09-27 18:55:04,887 - INFO - 
+Final Performance Metrics:
+2025-09-27 18:55:04,887 - INFO - Precision: 0.9532
+2025-09-27 18:55:04,889 - INFO - Recall: 0.7251
+2025-09-27 18:55:04,891 - INFO - F1-Score: 0.8237
+2025-09-27 18:55:04,892 - INFO - Test False Positive Rate: 0.0318

@@ -1,0 +1,162 @@
+import pandas as pd
+import random
+import string
+from pathlib import Path
+
+DATASET_PATH = "../datasets/MASTER_training_dataset.csv"
+OUTPUT_PATH = "../datasets/MASTER_training_dataset.csv"  # Overwrite or change as needed
+
+benign_payloads = [
+    "home", "about", "contact", "api", "status", "ping", "health", "main", "welcome",
+    "submit", "info", "check", "get", "post", "data", "details", "profile", "user",
+    "root", "page", "list", "view", "open", "admin", "dashboard", "table", "row", "col",
+    "products", "news", "blog", "update", "add", "edit", "login", "logout", "register",
+    "signup", "signin", "help", "faq", "support", "search", "cart", "checkout", "settings",
+    "preferences", "download", "upload", "refresh", "reset", "ok", "next", "previous", 
+    "first", "last", "recent", "history", "calendar", "events", "message", "notify",
+    "alert", "read", "write", "file", "folder", "docs", "terms", "policy", "privacy",
+    "agreement", "legal", "simple", "plain", "basic", "none", "foo", "bar", "baz",
+    "index", "test", "sample", "example", "default", "start", "stop", "run", "demo",
+    "launch", "go", "continue", "cancel", "back", "forward", "yes", "no", "maybe"
+]
+# Add some short benign phrases and typical GET/POST data
+benign_payloads += [
+    "Hello, world!", "This is a test.", "Just checking in.", "Sample payload.", "Testing API.",
+    "user=guest", "q=search", "id=123", "page=2", "sort=asc", "lang=en", "ref=homepage", "error=none"
+]
+# Generate some random benign alphanumeric strings (like UUIDs, tokens, etc.)
+for _ in range(200):
+    benign_payloads.append(
+        ''.join(random.choices(string.ascii_letters + string.digits, k=random.randint(6, 18)))
+    )
+
+# Realistic attack payloads (SQLi, XSS, path traversal, command injection, others)
+malicious_payloads = [
+    # Classic SQL injection
+    "' OR 1=1 --", "\" OR \"\"=\"", "' OR 'x'='x", "admin' --", "admin' #", "admin'/*", "1; DROP TABLE users", 
+    "' UNION SELECT NULL, NULL, NULL --", "'; EXEC xp_cmdshell('ping 10.10.1.2') --", 
+    # XSS attacks
+    "<script>alert('xss')</script>", "<IMG SRC=javascript:alert('XSS')>", "<BODY ONLOAD=alert('XSS')>", 
+    "';alert(String.fromCharCode(88,83,83))//", "<svg/onload=alert('XSS')>", "\" onmouseover=\"alert('XSS')",
+    # Path traversal
+    "../../etc/passwd", "..\\..\\boot.ini", "/../../windows/win.ini", "%2e%2e/%2e%2e/%2e%2e/%2e%2e/etc/passwd",
+    # Command injection
+    "1|cat /etc/passwd", "test; ls -la", "a && whoami", "test | whoami", "user; rm -rf /", "ping 127.0.0.1; whoami",
+    # XXE, SSRF, other web attacks
+    "<!DOCTYPE foo [<!ENTITY xxe SYSTEM \"file:///etc/passwd\">]>", 
+    "http://169.254.169.254/latest/meta-data/iam/security-credentials/",
+    # More SQLi
+    "'; WAITFOR DELAY '0:0:10'--", "admin' or sleep(10)#", "';select sleep(5)--", "1' or 1=1 limit 1--",
+    # More XSS/HTML
+    "<iframe src='javascript:alert(1)'>", "<img src=x onerror=alert(1)>", "<a href='javascript:alert(1)'>click</a>",
+    # Obfuscated
+    "%27%20OR%201=1--", "%22%20OR%20%22%22=%22", "%3Cscript%3Ealert(1)%3C/script%3E", 
+]
+# Generate some mutated/obfuscated attack variants
+for _ in range(200):
+    variant = random.choice([
+        "' OR " + str(random.randint(0, 9)) + "=" + str(random.randint(0, 9)) + " --",
+        "<script>alert('" + ''.join(random.choices(string.ascii_letters, k=3)) + "')</script>",
+        "../../" * random.randint(2, 6) + "etc/passwd",
+        "".join(random.choices(string.punctuation + string.ascii_letters, k=random.randint(10, 20))),
+        "1; DROP TABLE " + ''.join(random.choices(string.ascii_lowercase, k=5)),
+        "<IMG SRC=javascript:alert('" + ''.join(random.choices(string.digits, k=2)) + "')>",
+        "1' OR sleep(" + str(random.randint(1, 9)) + ")--",
+    ])
+    malicious_payloads.append(variant)
+
+def random_user_agent(is_malicious=False):
+    if is_malicious and random.random() < 0.3:
+        # Malicious UA or tool
+        ua_pool = [
+            "sqlmap/1.5.2", "Nikto/2.1.6", "curl/7.68.0", "python-requests/2.24.0", "Mozilla/5.0 (compatible; Nmap Scripting Engine;)",
+            "Acunetix Scanner", "Wget/1.20.3", "ZmEu", "Morfeus Fucking Scanner", "sqlninja", "NoUserAgent"
+        ]
+    else:
+        ua_pool = [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+            "Mozilla/5.0 (X11; Linux x86_64)",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X)",
+            "Mozilla/5.0 (Android 10; Mobile; rv:79.0) Gecko/79.0 Firefox/79.0"
+        ]
+    return random.choice(ua_pool)
+
+def extract_features(payload, method="POST", user_agent=None):
+    SQL_KEYWORDS = r"(?:union|select|insert|drop|update|delete|from|where|or|and|exec|execute|declare|sleep|waitfor|delay|table|xp_cmdshell|limit|sleep|benchmark|into|outfile|information_schema|concat|mid|substr|group_concat|having|truncate|alter|create|replace|rename|cast|convert|set|exists|count|chr|char|ascii|order by|--|/\*|\*/)"
+    XSS_PATTERNS = r"(?:script|javascript|onerror|onload|onmouseover|alert|document\.cookie|eval|fromcharcode|iframe|svg|img|src|onerror|onfocus|onabort|onblur|onchange|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|onreset|onscroll|onselect|onsubmit|onunload|formaction|<|>)"
+    PATH_TRAVERSAL = r"(?:\.\./|\.\.\\|%2e%2e%2f|%2e%2e%5c|\.%00|\.\.%00|/etc/passwd|boot\.ini|win\.ini|/windows/)"
+    if user_agent is None:
+        user_agent = random_user_agent()
+    features = {
+        'url_length': len(payload),
+        'num_special_chars': sum(not c.isalnum() for c in payload),
+        'contains_sql_keywords': int(bool(pd.notnull(payload) and pd.Series([payload]).str.contains(SQL_KEYWORDS, case=False, regex=True).iloc[0])),
+        'contains_xss_patterns': int(bool(pd.notnull(payload) and pd.Series([payload]).str.contains(XSS_PATTERNS, case=False, regex=True).iloc[0])),
+        'contains_path_traversal': int(bool(pd.notnull(payload) and pd.Series([payload]).str.contains(PATH_TRAVERSAL, case=False, regex=True).iloc[0])),
+        'request_length': len(payload),
+        'request_time': random.randint(0, 23),  # Simulate any hour
+        'is_get_method': int(method.upper() == 'GET'),
+        'is_post_method': int(method.upper() == 'POST'),
+        'ua_length': len(user_agent),
+        'is_common_browser': int(any(b in user_agent.lower() for b in ['chrome', 'firefox', 'safari', 'edge', 'msie', 'opera', 'mozilla', 'webkit'])),
+    }
+    return features
+
+def main():
+    print("Loading dataset...")
+    df = pd.read_csv(DATASET_PATH)
+    benign_count = (df["is_malicious"] == 0).sum()
+    malicious_count = (df["is_malicious"] == 1).sum()
+    print(f"Original counts - benign: {benign_count}, malicious: {malicious_count}")
+
+    # Target: 10,000 benign and 10,000 malicious new samples
+    num_new_benign = 10000
+    num_new_malicious = 10000
+
+    print("Generating benign samples...")
+    benign_samples = []
+    for _ in range(num_new_benign):
+        payload = random.choice(benign_payloads)
+        method = random.choice(["GET", "POST"])
+        ua = random_user_agent()
+        features = extract_features(payload, method, ua)
+        features['is_malicious'] = 0
+        features['source'] = 'augmented_benign'
+        benign_samples.append(features)
+    print("Generating malicious samples...")
+    malicious_samples = []
+    for _ in range(num_new_malicious):
+        payload = random.choice(malicious_payloads)
+        method = random.choice(["GET", "POST"])
+        ua = random_user_agent(is_malicious=True)
+        features = extract_features(payload, method, ua)
+        features['is_malicious'] = 1
+        features['source'] = 'augmented_malicious'
+        malicious_samples.append(features)
+
+    # Combine with original dataset and balance
+    benign_df = pd.DataFrame(benign_samples)
+    malicious_df = pd.DataFrame(malicious_samples)
+
+    # Downsample if needed to achieve overall balance
+    df_benign = df[df["is_malicious"] == 0]
+    df_malicious = df[df["is_malicious"] == 1]
+    min_class = min(len(df_benign) + len(benign_df), len(df_malicious) + len(malicious_df))
+    # Take up to min_class from each
+    df_benign_bal = pd.concat([df_benign, benign_df], ignore_index=True).sample(min_class, random_state=42)
+    df_malicious_bal = pd.concat([df_malicious, malicious_df], ignore_index=True).sample(min_class, random_state=42)
+
+    final_df = pd.concat([df_benign_bal, df_malicious_bal], ignore_index=True)                                
+    final_df = final_df.sample(frac=1, random_state=42).reset_index(drop=True)
+    final_df.to_csv(OUTPUT_PATH, index=False)
+    print(f"\nAugmented and balanced dataset saved to: {OUTPUT_PATH}")
+    print(f"Final counts: benign={len(df_benign_bal)}, malicious={len(df_malicious_bal)}, total={len(final_df)}")
+
+    print("\nPreview of benign:")
+    print(final_df[final_df["is_malicious"] == 0].head(5))
+    print("\nPreview of malicious:")
+    print(final_df[final_df["is_malicious"] == 1].head(5))
+
+if __name__ == "__main__":
+    main()

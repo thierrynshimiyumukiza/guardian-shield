@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Security Agent Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
+        h1, h2 { color: #333; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; overflow: auto; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #e0e0e0; font-weight: bold; }
+        tr:nth-child(even) { background: #f2f2f2; }
+        .alert { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>AI Security Agent Dashboard</h1>
+    <h2>System Statistics</h2>
+    <pre>{{ stats | tojson(indent=2) }}</pre>
+    <h2>Recent Blocked Requests (Last 10)</h2>
+    {% if recent_blocks %}
+    <table>
+        <tr>
+            <th>Timestamp</th>
+            <th>URL</th>
+            <th>Client IP</th>
+            <th>Reason</th>
+            <th>Mitigation</th>
+        </tr>
+        {% for block in recent_blocks %}
+        <tr>
+            <td>{{ block.timestamp[:19] }}</td>
+            <td>{{ block.url | truncate(50) }}</td>
+            <td>{{ block.client_ip }}</td>
+            <td class="alert">{{ block.reason or 'ML/LLM Detection' }}</td>
+            <td>{{ block.mitigation or 'Review logs' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No recent blocks recorded.</p>
+    {% endif %}
+</body>
+</html>
