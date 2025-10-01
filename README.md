@@ -96,14 +96,24 @@ Getting GuardianShield up and running is a breeze—**takes 5 minutes!**
 
     - **Logs:** Check `logs/debug_requests.log`.
 
-6. **Deploy (Optional):**
-    - Push to GitHub, connect to Render/Heroku for a live URL.
+> **Results:** however you might like to see the what you will excepect after you are done
 
-> **Note:** Update `.env` for API key/SMTP (optional for local testing).
+I will first show you the test result after training the model. It was not easy because it took me time to clean up the json files and also balance the dataset. Therefore bellow i am attaching my model result after a wild struggle of training.
+![Model Train Results](result/Capture.PNG)
+
+**After Training** I wanted to test my fastApi app, what i did was to send terrible malicious request and also begnin request in order to see how the model reacts. bellow I am showing you my server replies to the request sent.
+![Benign request analysis](result/begnin_malicious_request.PNG)
+
+but wait, what will be the going on the server or what will be the reply from the server. It is simple, the request are always allowed or disallowed by the status code. Therefore, the response here from the server or the backend will be the status code which is 403 Forbiden.
+and when the  request is normal it will respond with status code of 200 which is -->OK which successful.
+bellow i am showing how it responds.
+![Benign request analysis](result/begnin_malicious_request.PNG)
 
 ---
+6. **Deploy (Optional):**
+    -  Depending on your budget or your convenient you can deploy it anywhere you want. However, for me I am planning to adjust it in the future and build a concrete dashboard.                   
 
-## 🧪 Demo & Results
+## Further descriptions
 
 Here’s GuardianShield in action (screenshots from my tests):
 
@@ -126,6 +136,15 @@ bash tests/demo.sh
 
 ## 🤝 Let's Connect
 
+
+### 1. Proxy Running (FastAPI UI)
+![FastAPI background](result/backgroundFastapi.PNG)
+
+### 2. Benign Request Example
+![Benign request analysis](result/begnin_malicious_request.PNG)
+
+### 3. Malicious Request Blocked
+![Malicious request blocked](result/Capture.PNG)                    
 Love this? Fork it, star it, or hit me up!
 
 - **GitHub:** [@thierrynshimiyumukiza](https://github.com/thierrynshimiyumukiza)
