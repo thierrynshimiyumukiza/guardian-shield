@@ -28,7 +28,7 @@ GuardianShield is a FastAPI-based proxy that sits between your app and the inter
 
 ---
 
-## ✨ Key Highlights
+##  Key Highlights
 
 - **ML Model:** Trained on OWASP features like URL length, entropy, and injection patterns. **Threshold:** 0.7 for high precision.
 - **Rules Engine:** Catches critical patterns (SQLi, XSS, command injection) with **100% accuracy** on samples.
@@ -37,17 +37,16 @@ GuardianShield is a FastAPI-based proxy that sits between your app and the inter
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend:** [FastAPI](https://fastapi.tiangolo.com/) for the proxy server.
 - **ML:** [XGBoost](https://xgboost.readthedocs.io/) for classification, [scikit-learn](https://scikit-learn.org/) for calibration/feature selection.
 - **LLM:** Hugging Face’s [toxic-bert](https://huggingface.co/unitary/toxic-bert) for threat scoring.
 - **Logging:** Built-in Python logging to files.
-- **Deployment:** Render/Heroku for cloud, or local with uvicorn.
 
 ---
 
-## ⚡ Setup Instructions
+## Setup Instructions
 
 Getting GuardianShield up and running is a breeze—**takes 5 minutes!**
 
@@ -126,15 +125,8 @@ Here’s GuardianShield in action (screenshots from my tests):
 bash tests/demo.sh
 ```
 ---
-##  Future Work
 
-- **MySQL Logging:** Re-add for persistent false positive tracking.
-- **Streamlit Dashboard:** Live views of threats and stats.
-- **Cloud Scaling:** Auto-deploy on AWS Lambda for serverless.
-
----
-
-## 🤝 Let's Connect                   
+## Let's Connect                   
 Love this? Fork it, star it, or hit me up!
 
 - **GitHub:** [@thierrynshimiyumukiza](https://github.com/thierrynshimiyumukiza)
@@ -144,7 +136,4 @@ Love this? Fork it, star it, or hit me up!
 - **Email:** thierrynshimiyumukiza@gmail.com
 
 ---
-
-_Built with ❤️ in Rwanda for the world. Let’s shield the web together!_
-
 **Thierry Mukiza, October 01, 2025**
