@@ -115,25 +115,8 @@ Here’s GuardianShield in action (screenshots from my tests):
 ```bash
 bash tests/demo.sh
 ```
-
 ---
-
-## 🏆 Hackathon Tie-In: Why GuardianShield Wins Infinity Code
-
-- **Track:** Cyber Shield Mission—Defends against digital threats with AI-driven tools.
-- **Relevance (5 pts):** Tackles OWASP Top 10, a real-world crisis with 80% of breaches from injection (Verizon DBIR 2025).
-- **Innovation (5 pts):** Hybrid ML + rules + LLM semantics—adaptive, not just static.
-- **Technical Soundness (10 pts):** 85% accuracy, clean code, local deploy—no bloat.
-- **Impact (5 pts):** Scalable for startups; protects global apps from breaches costing $4.45M average (IBM).
-- **Presentation (5 pts):** 8-slide deck + 1-min video demo—clear, under 10 slides.
-
-- **Repo:** [github.com/thierry-mukiza/guardian-shield](https://github.com/thierrynshimiyumukiza/guardian-shield)
-- **Video:** [YouTube Demo](#)
-- **Devpost:** [Infinity Code Submission](#)
-
----
-
-## 🚀 Future Work
+##  Future Work
 
 - **MySQL Logging:** Re-add for persistent false positive tracking.
 - **Streamlit Dashboard:** Live views of threats and stats.
@@ -145,8 +128,10 @@ bash tests/demo.sh
 
 Love this? Fork it, star it, or hit me up!
 
-- **GitHub:** [@thierry-mukiza](https://github.com/thierrynshimiyumukiza)
-- **Twitter:** [@thierry_mukiza](https://twitter.com/thierry_mukiza)
+- **GitHub:** [@thierrynshimiyumukiza](https://github.com/thierrynshimiyumukiza)
+- **Twitter:** [D3F1ANT](https://x.com/datafuel0)
+- **Website:** [Thierry Mukiza](https://thierry-eight.vercel.app/blog)                    
+  
 - **Email:** thierrynshimiyumukiza@gmail.com
 
 ---
