@@ -109,6 +109,206 @@ bellow i am showing how it responds.
 ![FastAPI background](result/backgroundFastapi.PNG)
 
 ---
+Lastly, as i showed things in the picture; I wanted to show the authenticity of the test. However, the things in the snipet might somehow confuse you as a reader, Therefore, it is important for me to show you how it works by pasting organized request and response of what actually happpens.
+
+bellow I am attaching the raw request and also the responses;
+## Usage Examples
+
+Here’s a clear and organized set of examples showing how to use the guardian-shield system and what kind of output you can expect. You can copy and paste these examples directly into your README or docs for clarity.
+
+---
+
+### 1. Loading Profiles
+
+When the system starts, you’ll see a message like this telling you how long it took to load the necessary profiles:
+
+```plaintext
+Loading personal and system profiles took 22655ms.
+```
+
+---
+
+### 2. Starting the FastAPI Server
+
+To start up the backend server (which uses FastAPI and Uvicorn), run this command in your project directory:
+
+```powershell
+(base) PS G:\ai-security-agent-lab\ai-agent\app> uvicorn main:app
+```
+
+You’ll see output similar to this, confirming that your models are loaded and the server is running:
+
+```plaintext
+INFO:     Started server process [14080]
+INFO:     Waiting for application startup.
+2025-10-01 19:35:55,860 - INFO - Loaded models: 22 features, threshold 0.7001755833625793
+2025-10-01 19:35:55,860 - INFO - AI Security Agent Started | Model Loaded: True | Threshold: 0.7
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:56246 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56270 - "POST /analyze HTTP/1.1" 403 Forbidden
+```
+
+- `200 OK` means your request was accepted (allowed).
+- `403 Forbidden` means the request was blocked as potentially malicious.
+
+---
+
+### 3. Submitting Safe Queries
+
+To test a normal, safe request, use:
+
+```powershell
+curl.exe -X POST http://localhost:8000/analyze -d "search=OpenAI"
+```
+
+The system replies with a detailed JSON confirming the request is allowed:
+
+```json
+{
+  "request_analysis": {
+    "body_preview": "search=OpenAI",
+    "is_whitelisted": true,
+    "critical_pattern_detected": false,
+    "critical_reason": null
+  },
+  "ml_analysis": {
+    "probability": 0.0,
+    "prediction": 0,
+    "threshold": 0.7001755833625793,
+    "model_loaded": true
+  },
+  "llm_analysis": {
+    "threat_level": "low",
+    "reason": "Whitelisted",
+    "mitigation": "None"
+  },
+  "decision": {
+    "would_be_blocked": false,
+    "blocking_reason": "whitelisted",
+    "final_verdict": "ALLOWED"
+  },
+  "features_preview": {}
+}
+```
+
+---
+
+### 4. Detecting and Blocking Attacks
+
+#### Example: XSS Attack Attempt
+
+If someone tries to send an XSS attack, such as submitting a script tag:
+
+```powershell
+curl.exe -X POST http://localhost:8000/analyze -d "%3Cscript%3Ealert('XSS')%3C/script%3E"
+```
+
+The system will block the request and provide this response:
+
+```json
+{
+  "error": "Request blocked by AI agent",
+  "reason": "critical_xss_pattern_<script[^>]*>.*",
+  "mitigation": "Investigate logs and update security rules."
+}
+```
+
+---
+
+#### Example: SQL Injection Attempt
+
+If an SQL injection is attempted:
+
+```powershell
+curl.exe -X POST http://localhost:8000/analyze -d "' OR 1=1--"
+```
+
+You’ll get a similar block response:
+
+```json
+{
+  "error": "Request blocked by AI agent",
+  "reason": "critical_sql_pattern_'\\s+or\\s+1=1\\s*",
+  "mitigation": "Investigate logs and update security rules."
+}
+```
+
+---
+
+#### Example: Path Traversal or Privilege Escalation Attempt
+
+Trying to access sensitive files with path traversal:
+
+```powershell
+curl.exe -X POST http://localhost:8000/analyze -d "../../etc/passwd"
+curl.exe -X POST http://localhost:8000/analyze -d "..\\..\\..\\windows\\system32\\config\\sam"
+```
+
+The system blocks these as well, indicating a high probability of malicious intent:
+
+```json
+{
+  "error": "Request blocked by ML model",
+  "malicious_probability": 0.9861375689506531,
+  "mitigation": "Review ML features; consider retraining model."
+}
+{
+  "error": "Request blocked by ML model",
+  "malicious_probability": 0.9849666953086853,
+  "mitigation": "Review ML features; consider retraining model."
+}
+```
+
+---
+
+### 5. Multiple Safe Requests
+
+You can also send several safe requests in a row. Each one is analyzed independently:
+
+```powershell
+curl.exe -X POST http://localhost:8000/analyze -d "search=OpenAI"
+curl.exe -X POST http://localhost:8000/analyze -d "username=testuser&password=hello123"
+curl.exe -X POST http://localhost:8000/analyze -d "email=user@example.com"
+```
+
+For each, you’ll get a positive, allowed response like this:
+
+```json
+{
+  "request_analysis": {
+    "body_preview": "search=OpenAI",
+    "is_whitelisted": true,
+    "critical_pattern_detected": false,
+    "critical_reason": null
+  },
+  "ml_analysis": {
+    "probability": 0.0,
+    "prediction": 0,
+    "threshold": 0.7001755833625793,
+    "model_loaded": true
+  },
+  "llm_analysis": {
+    "threat_level": "low",
+    "reason": "Whitelisted",
+    "mitigation": "None"
+  },
+  "decision": {
+    "would_be_blocked": false,
+    "blocking_reason": "whitelisted",
+    "final_verdict": "ALLOWED"
+  },
+  "features_preview": {}
+}
+```
+*(You’ll see a similar response for each safe request you send.)*
+
+---
+
+> **Tip:**  
+> These examples are ready to use—simply copy and paste them into your own README or documentation to help users understand how guardian-shield works and what kinds of responses they’ll see.
+---
+
 6. **Deploy (Optional):**
     -  Depending on your budget or your convenient you can deploy it anywhere you want. However, for me I am planning to adjust it in the future and build a concrete dashboard.                   
 
