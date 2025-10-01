@@ -107,7 +107,7 @@ I will first show you the test result after training the model. It was not easy 
 but wait, what will be the going on the server or what will be the reply from the server. It is simple, the request are always allowed or disallowed by the status code. Therefore, the response here from the server or the backend will be the status code which is 403 Forbiden.
 and when the  request is normal it will respond with status code of 200 which is -->OK which successful.
 bellow i am showing how it responds.
-![Benign request analysis](result/begnin_malicious_request.PNG)
+![FastAPI background](result/backgroundFastapi.PNG)
 
 ---
 6. **Deploy (Optional):**
@@ -134,17 +134,7 @@ bash tests/demo.sh
 
 ---
 
-## 🤝 Let's Connect
-
-
-### 1. Proxy Running (FastAPI UI)
-![FastAPI background](result/backgroundFastapi.PNG)
-
-### 2. Benign Request Example
-![Benign request analysis](result/begnin_malicious_request.PNG)
-
-### 3. Malicious Request Blocked
-![Malicious request blocked](result/Capture.PNG)                    
+## 🤝 Let's Connect                   
 Love this? Fork it, star it, or hit me up!
 
 - **GitHub:** [@thierrynshimiyumukiza](https://github.com/thierrynshimiyumukiza)
